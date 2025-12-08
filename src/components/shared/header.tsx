@@ -3,11 +3,80 @@
 import Link from "next/link";
 import Button from "../shared/button";
 import "../../app/globals.css";
+import { useState, useEffect, useRef } from "react";
 
 export default function Header() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLElement>(null);
+
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        menuRef.current &&
+        event.target instanceof Node &&
+        !menuRef.current.contains(event.target)
+      ) {
+        closeMenu();
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const NavLinks = (
+    <nav className="flex flex-col md:flex-row items-center gap-6 md:gap-9">
+      <Link
+        href="#features"
+        onClick={closeMenu}
+        className="text-white/80 hover:text-white transition-colors text-lg md:text-sm font-medium leading-normal p-2 md:p-0"
+      >
+        Features
+      </Link>
+      <Link
+        href="#demo"
+        onClick={closeMenu}
+        className="text-white/80 hover:text-white transition-colors text-lg md:text-sm font-medium leading-normal p-2 md:p-0"
+      >
+        Demo
+      </Link>
+      <Link
+        href="/docs"
+        onClick={closeMenu}
+        className="text-white/80 hover:text-white transition-colors text-lg md:text-sm font-medium leading-normal p-2 md:p-0"
+      >
+        Docs
+      </Link>
+    </nav>
+  );
+
+  const AuthButtons = (
+    <div className="flex flex-col md:flex-row gap-4 md:gap-2 w-full md:w-auto mt-6 md:mt-0 px-4 md:px-0">
+      <Button variant="secondary" size="md" className="w-full md:w-auto">
+        Login
+      </Button>
+      <Button variant="primary" size="md" className="w-full md:w-auto">
+        Sign Up
+      </Button>
+    </div>
+  );
+
   return (
-    <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-white/10 px-4 sm:px-10 py-3">
-      {/* Logo */}
+    <header
+      ref={menuRef}
+      className="flex items-center justify-between whitespace-nowrap border-b border-solid border-white/10 px-4 sm:px-10 py-3 relative z-50"
+    >
       <Link
         href="/"
         className="flex items-center gap-4 text-white hover:opacity-80 transition-opacity"
@@ -35,38 +104,76 @@ export default function Header() {
         </h2>
       </Link>
 
-      {/* Desktop Navigation */}
       <div className="hidden md:flex flex-1 justify-end gap-8">
-        <nav className="flex items-center gap-9">
-          <Link
-            href="#features"
-            className="text-white/80 hover:text-white transition-colors text-sm font-medium leading-normal"
-          >
-            Features
-          </Link>
-          <Link
-            href="#demo"
-            className="text-white/80 hover:text-white transition-colors text-sm font-medium leading-normal"
-          >
-            Demo
-          </Link>
-          <Link
-            href="/docs"
-            className="text-white/80 hover:text-white transition-colors text-sm font-medium leading-normal"
-          >
-            Docs
-          </Link>
-        </nav>
-
-        <div className="flex gap-2">
-          <Button variant="secondary" size="md">
-            Login
-          </Button>
-          <Button variant="primary" size="md">
-            Sign Up
-          </Button>
-        </div>
+        {NavLinks}
+        {AuthButtons}
       </div>
+
+      <button
+        onClick={toggleMenu}
+        className="md:hidden text-white hover:opacity-80 transition-opacity"
+        aria-label="Toggle menu"
+      >
+        <svg
+          className="size-6"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          {isMenuOpen ? (
+            <>
+              <path
+                d="M18 6L6 18"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M6 6L18 18"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </>
+          ) : (
+            <>
+              <path
+                d="M4 6H20"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M4 12H20"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M4 18H20"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </>
+          )}
+        </svg>
+      </button>
+
+      {isMenuOpen && (
+        <div className="absolute top-full left-0 w-full bg-black/90 backdrop-blur-sm shadow-xl p-6 md:hidden">
+          <div className="flex flex-col items-center">
+            {NavLinks}
+            <div className="w-full h-1 bg-white/10 my-6" />
+            {AuthButtons}
+          </div>
+        </div>
+      )}
     </header>
   );
 }
