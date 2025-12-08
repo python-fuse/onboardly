@@ -1,10 +1,10 @@
-import Overview from "@/src/components/dashboard/Overview";
+import StepsManager from "@/src/components/dashboard/StepsManager";
 import React from "react";
 
 function Dashboard() {
   return (
     <>
-      <Overview />
+      <StepsManager />
     </>
   );
 }
