@@ -1,5 +1,6 @@
-// "use client"; // Already present, but kept for context
+"use client";
 
+import { useRouter } from "next/navigation";
 import Button from "../shared/button";
 // REMOVED: import "../../app/globals.css"; (Global CSS should only be in layout.tsx)
 import { CSSProperties } from "react";
@@ -41,6 +42,11 @@ export default function HeroSection() {
     backgroundColor: "var(--primary)",
   };
 
+  const router = useRouter();
+  const handleDash = () => {
+    router.push("/dashboard");
+  };
+
   return (
     <div className="px-4">
       <div
@@ -73,7 +79,7 @@ export default function HeroSection() {
 
         {/* CTA Buttons */}
         <div className="flex flex-wrap gap-3 justify-center z-20">
-          <Button variant="primary" size="lg">
+          <Button variant="primary" size="lg" onClick={handleDash}>
             Start for Free
           </Button>
           <Button variant="secondary" size="lg">
