@@ -1,7 +1,8 @@
 import HeroSection from "@/src/components/landing-page/HeroSection";
 import HowItWorks from "@/src/components/landing-page/HowItWorks";
 import Features from "@/src/components/landing-page/Features";
-import DemoSection from "@//src/components/landing-page/DemoSection";
+// import DemoSection from "@//src/components/landing-page/DemoSection";
+import CTA from "../components/shared/CTA";
 
 export default function LandingPage() {
   return (
@@ -9,7 +10,8 @@ export default function LandingPage() {
       <HeroSection />
       <HowItWorks />
       <Features />
-      <DemoSection />
+      {/* <DemoSection /> */}
+      <CTA />
     </main>
   );
 }
