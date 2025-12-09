@@ -1,77 +1,56 @@
-"use client";
+import Link from "next/link";
 
-import { useState } from "react";
-import { FiUsers, FiLogOut, FiHelpCircle } from "react-icons/fi";
-import { MdDashboard, MdOutlineTour, MdOutlineAnalytics } from "react-icons/md";
-import { IoMdSettings } from "react-icons/io";
-import { LuSquareCode } from "react-icons/lu";
+const navItems = [
+  { name: "Dashboard", href: "/dashboard", },
+  { name: "Tours", href: "/dashboard/edittour",  },
+  { name: "Steps", href: "dashboard/managetour",  },
+  { name: "Analytics", href: "#",  },
+  { name: "Settings", href: "#",  },
+];
 
 export default function Sidebar() {
-  const [open, setOpen] = useState(true);
-
   return (
-    <div
-      className={`${
-        open ? "w-60" : "w-20"
-      } transition-all duration-300 h-screen p-5 flex flex-col justify-between`}
-    >
-      {/* Top Section */}
-      <div>
-        {/* Logo */}
-        <div className="flex items-center gap-3 mb-10">
-          <div className="w-10 h-10 bg-green-400 rounded-full"></div>
-          {open && (
-            <div>
-              <h1 className="font-bold text-lg">Guidely</h1>
-              <p className="text-xs text-gray-400">Onboarding Tours</p>
+    <aside className="flex w-64 flex-col border-r border-gray-200/10 bg-[#161023] p-4 text-white">
+      <div className="flex flex-col justify-between h-full">
+        <div>
+          <div className="flex items-center gap-3 px-2 mb-4">
+            <div
+              className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+              style={{
+                backgroundImage:
+                  'url("https://lh3.googleusercontent.com/aida-public/AB6AXuA5ngYh5buKcZfMu9Bzquhr31XfWBK1shORf072WvRE_OiL_ntHbkmgMoFvN3rHU6nrKcf8swEauwPF77oMKCao00Jc8SH6lcqb9GV0XZqNmIsoYno2ruokeUNK0UtsVJQKyQOpbqVn4WgeZfo8KW5TVKC0KYy0lYg1MtCfOgNBMs9tLUGogYiEonRrbOzL2r5_a_FSK2ATw1Y-_Dk8NvKtuBwAWlRxPLhDYk969Z7LNmVEsaA7wH5KzQWFqp-NXFz-YsnAJqgtDBY")',
+              }}
+            ></div>
+            <div className="flex flex-col">
+              <h1 className="text-white text-base font-medium leading-normal">
+                Guidely Inc.
+              </h1>
+              <p className="text-[#a490cb] text-sm font-normal leading-normal">
+                Workspace
+              </p>
             </div>
-          )}
+          </div>
+          <nav className="flex flex-col gap-1">
+            {navItems.map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-white hover:bg-[#2f2249]/60 transition-colors"
+              >
+                <span className="material-symbols-outlined text-2xl">
+                  {item.icon}
+                </span>
+                <span className="text-sm font-medium">{item.name}</span>
+              </Link>
+            ))}
+          </nav>
         </div>
-
-        {/* Menu */}
-        <div className="space-y-4">
-          <SidebarItem icon={<MdDashboard />} label="Dashboard" open={open} />
-          <SidebarItem
-            active
-            icon={<MdOutlineAnalytics />}
-            label="Analytics"
-            open={open}
-          />
-          <SidebarItem icon={<MdOutlineTour />} label="Tours" open={open} />
-          <SidebarItem icon={<FiUsers />} label="Users" open={open} />
-          <SidebarItem
-            icon={<LuSquareCode />}
-            label="Embed Script"
-            open={open}
-          />
-          <SidebarItem icon={<IoMdSettings />} label="Settings" open={open} />
+        <div className="flex flex-col gap-4">
+          <button className="flex min-w-[84px] w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors">
+            New Tour
+          </button>
         </div>
       </div>
-
-      {/* Bottom Section */}
-      <div className="space-y-3">
-        <SidebarItem
-          icon={<FiHelpCircle />}
-          label="Help & Support"
-          open={open}
-        />
-        <SidebarItem icon={<FiLogOut />} label="Log Out" open={open} />
-      </div>
-    </div>
-  );
-}
-
-function SidebarItem({ icon, label, active, open }: any) {
-  return (
-    <button
-      className={`flex items-center gap-3 w-full text-sm 
-      transition
-      ${
-        active ? "bg-purple-700 text-white" : "text-gray-300 hover:bg-gray-800"
-      }`}
-    >
-      <span className="text-lg">{icon}</span>
-      {open && <span>{label}</span>}
-    </button>
+    </aside>
   );
 }
