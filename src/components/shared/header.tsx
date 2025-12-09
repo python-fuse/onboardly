@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Button from "../shared/button";
 import "../../app/globals.css";
 import { useState, useEffect, useRef } from "react";
@@ -8,6 +9,7 @@ import { useState, useEffect, useRef } from "react";
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLElement>(null);
+  const router = useRouter();
 
   const closeMenu = () => {
     setIsMenuOpen(false);
@@ -63,10 +65,20 @@ export default function Header() {
 
   const AuthButtons = (
     <div className="flex flex-col md:flex-row gap-4 md:gap-2 w-full md:w-auto mt-6 md:mt-0 px-4 md:px-0">
-      <Button variant="secondary" size="md" className="w-full md:w-auto">
+      <Button
+        variant="secondary"
+        size="md"
+        className="w-full md:w-auto"
+        onClick={() => router.push("/login")}
+      >
         Login
       </Button>
-      <Button variant="primary" size="md" className="w-full md:w-auto">
+      <Button
+        variant="primary"
+        size="md"
+        className="w-full md:w-auto"
+        onClick={() => router.push("/signup")}
+      >
         Sign Up
       </Button>
     </div>
