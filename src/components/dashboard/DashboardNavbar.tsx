@@ -64,7 +64,7 @@ export default function DashboardNavbar() {
         Analytics
       </Link>
       <Link
-        href="/docs"
+        href="/dashboard/embed"
         onClick={closeMenu}
         className="text-white/80 hover:text-white transition-colors text-lg md:text-sm font-medium leading-normal p-2 md:p-0"
       >

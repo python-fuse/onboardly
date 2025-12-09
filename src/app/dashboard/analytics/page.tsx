@@ -1,15 +1,28 @@
+import Sidebar from "@/src/components/dashboard/Sidebar";
 import Image from "next/image";
-import React from "react";
 
 export default function Analytics() {
   return (
-    <div className="min-h-screen text-white p-8">
-      <div className="max-w-7xl mx-auto">
-        {/* Page Title */}
-        <h1 className="text-4xl font-bold mb-2">Analytics</h1>
-        <p className="text-gray-300 mb-8">
-          Key metrics for your onboarding tours.
-        </p>
+    <div className="flex text-white min-h-screen">
+      {/* Sidebar */}
+      <Sidebar />
+
+      {/* Main Content */}
+      <div className="flex-1 p-10">
+        {/* Header Row */}
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h1 className="text-4xl font-bold mb-2">Analytics</h1>
+            <p className="text-gray-300">
+              Key metrics for your onboarding tours.
+            </p>
+          </div>
+
+          {/* Export Data Button */}
+          <button className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-sm">
+            Export Data
+          </button>
+        </div>
 
         {/* Date Range Tabs */}
         <div className="flex gap-4 mb-10 text-gray-300 text-sm">
@@ -73,7 +86,6 @@ export default function Analytics() {
           <h2 className="text-xl font-semibold mb-6">Tour Completion Trends</h2>
           <div className="flex justify-center">
             <div className="bg-gray-900 p-8 rounded-xl">
-              {/* Placeholder chart */}
               <div className="w-64 h-64 bg-gray-700 flex items-center justify-center rounded-lg">
                 <Image
                   src="/analytics"
@@ -121,22 +133,10 @@ export default function Analytics() {
             <h2 className="text-xl font-semibold mb-6">Most Skipped Steps</h2>
             <div className="space-y-6">
               {[
-                {
-                  step: "Step 3: Invite Team",
-                  skips: 124,
-                },
-                {
-                  step: "Step 5: Connect Integrations",
-                  skips: 98,
-                },
-                {
-                  step: "Step 2: Create Project",
-                  skips: 72,
-                },
-                {
-                  step: "Step 7: Billing Details",
-                  skips: 55,
-                },
+                { step: "Step 3: Invite Team", skips: 124 },
+                { step: "Step 5: Connect Integrations", skips: 98 },
+                { step: "Step 2: Create Project", skips: 72 },
+                { step: "Step 7: Billing Details", skips: 55 },
               ].map((item, index) => (
                 <div key={index}>
                   <div className="flex justify-between mb-1 text-sm text-gray-300">
