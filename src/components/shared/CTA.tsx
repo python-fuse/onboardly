@@ -1,6 +1,5 @@
 import Button from "../shared/button";
 import { ArrowRight } from "lucide-react";
-import { CheckCircle } from "lucide-react";
 
 const CTA = () => {
   return (
@@ -37,8 +36,8 @@ const CTA = () => {
           </Button>
         </div>
 
-        <div className="mt-4 w-full">
-          <span className="relative px-8 text-lg font-bold text-white transition-all" >
+        <div className="mt-3 w-full">
+          <span className="relative px-8 text-sm text-slate-300 transition-all" >
             No credit card required
           </span>
         </div>
