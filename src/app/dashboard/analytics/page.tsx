@@ -7,6 +7,9 @@ export default function Analytics() {
       {/* Sidebar */}
       <Sidebar />
 
+      {/* Thin Vertical Line */}
+      <div className="w-px bg-white" />
+
       {/* Main Content */}
       <div className="flex-1 p-10">
         {/* Header Row */}

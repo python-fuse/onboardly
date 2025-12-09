@@ -4,12 +4,14 @@ export default function EmbedScript() {
   const scriptCode = `<script async src="https://cdn.guidely.io/widget.js" data-guidely-id="YOUR_UNIQUE_ID"></script>`;
 
   return (
-    <div className="flex min-h-screen text-white">
+    <div className="flex h-screen overflow-hidden text-white">
       {/* Sidebar */}
       <Sidebar />
 
+      {/* Thin Vertical Line */}
+      <div className="w-px bg-white" />
       {/* Main Content */}
-      <div className="flex-1 p-16">
+      <div className="flex-1 p-16 overflow-hidden">
         {/* Title */}
         <h1 className="text-4xl font-bold mb-4">Embed Script</h1>
 

@@ -9,6 +9,9 @@ import {
   FiLogOut,
   FiHelpCircle,
 } from "react-icons/fi";
+import { MdDashboard, MdOutlineTour, MdOutlineAnalytics } from "react-icons/md";
+import { IoMdSettings } from "react-icons/io";
+import { LuSquareCode } from "react-icons/lu";
 
 export default function Sidebar() {
   const [open, setOpen] = useState(true);
@@ -34,16 +37,21 @@ export default function Sidebar() {
 
         {/* Menu */}
         <div className="space-y-4">
-          <SidebarItem icon={<FiHome />} label="Dashboard" open={open} />
+          <SidebarItem icon={<MdDashboard />} label="Dashboard" open={open} />
           <SidebarItem
             active
-            icon={<FiBarChart2 />}
+            icon={<MdOutlineAnalytics />}
             label="Analytics"
             open={open}
           />
-          <SidebarItem icon={<FiUsers />} label="Tours" open={open} />
+          <SidebarItem icon={<MdOutlineTour />} label="Tours" open={open} />
           <SidebarItem icon={<FiUsers />} label="Users" open={open} />
-          <SidebarItem icon={<FiSettings />} label="Settings" open={open} />
+          <SidebarItem
+            icon={<LuSquareCode />}
+            label="Embed Script"
+            open={open}
+          />
+          <SidebarItem icon={<IoMdSettings />} label="Settings" open={open} />
         </div>
       </div>
 
