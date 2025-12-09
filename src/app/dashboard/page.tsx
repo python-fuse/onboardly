@@ -118,9 +118,7 @@ export default function DashboardPage() {
                   </p>
                   <p
                     className={`text-sm font-medium ${
-                      change.startsWith("+")
-                        ? "text-green-500"
-                        : "text-red-500"
+                      change.startsWith("+") ? "text-green-500" : "text-red-500"
                     }`}
                   >
                     {change}
@@ -138,19 +136,16 @@ export default function DashboardPage() {
               <table className="w-full text-left">
                 <thead className="border-b border-gray-200 dark:border-zinc-800">
                   <tr>
-                    {[
-                      "Tour Name",
-                      "Status",
-                      "Completions",
-                      "Last Edited",
-                    ].map((col) => (
-                      <th
-                        key={col}
-                        className="px-6 py-3 text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-zinc-400"
-                      >
-                        {col}
-                      </th>
-                    ))}
+                    {["Tour Name", "Status", "Completions", "Last Edited"].map(
+                      (col) => (
+                        <th
+                          key={col}
+                          className="px-6 py-3 text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-zinc-400"
+                        >
+                          {col}
+                        </th>
+                      )
+                    )}
                     <th className="px-6 py-3"></th>
                   </tr>
                 </thead>
@@ -159,12 +154,7 @@ export default function DashboardPage() {
                   {/* Rows */}
                   {[
                     ["New User Onboarding", "Published", "1,204", "2 days ago"],
-                    [
-                      "Feature Announcement Tour",
-                      "Draft",
-                      "-",
-                      "5 hours ago",
-                    ],
+                    ["Feature Announcement Tour", "Draft", "-", "5 hours ago"],
                     [
                       "Advanced Settings Guide",
                       "Published",
@@ -204,7 +194,9 @@ export default function DashboardPage() {
                         {edited}
                       </td>
                       <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
-                        <a className="text-primary hover:text-primary/80">Edit</a>
+                        <a className="text-primary hover:text-primary/80">
+                          Edit
+                        </a>
                       </td>
                     </tr>
                   ))}
