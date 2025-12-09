@@ -8,7 +8,7 @@ export default function Analytics() {
       <Sidebar />
 
       {/* Thin Vertical Line */}
-      <div className="w-px bg-white" />
+      <div className="w-px bg-white/5" />
 
       {/* Main Content */}
       <div className="flex-1 p-10">
@@ -75,7 +75,7 @@ export default function Analytics() {
           ].map((item, index) => (
             <div
               key={index}
-              className="bg-gray-800 p-6 rounded-2xl shadow-sm flex flex-col gap-2"
+              className="bg-white/5 p-6 rounded-2xl shadow-sm flex flex-col gap-2"
             >
               <p className="text-gray-400 text-sm">{item.title}</p>
               <h2 className="text-3xl font-bold">{item.value}</h2>
@@ -85,11 +85,11 @@ export default function Analytics() {
         </div>
 
         {/* Tour Completion Trends */}
-        <div className="bg-gray-800 rounded-2xl p-8 mb-12">
+        <div className="bg-white/5 rounded-2xl p-8 mb-12">
           <h2 className="text-xl font-semibold mb-6">Tour Completion Trends</h2>
           <div className="flex justify-center">
             <div className="bg-gray-900 p-8 rounded-xl">
-              <div className="w-64 h-64 bg-gray-700 flex items-center justify-center rounded-lg">
+              <div className="w-64 h-64 bg-white/5 flex items-center justify-center rounded-lg">
                 <Image
                   src="/analytics"
                   alt="analytics"
@@ -104,7 +104,7 @@ export default function Analytics() {
         {/* Bottom Panels */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
           {/* Top Performing Tours */}
-          <div className="bg-gray-800 p-6 rounded-2xl">
+          <div className="bg-white/5 p-6 rounded-2xl">
             <h2 className="text-xl font-semibold mb-6">Top Performing Tours</h2>
             <table className="w-full text-left text-gray-300 text-sm">
               <thead>
@@ -132,7 +132,7 @@ export default function Analytics() {
           </div>
 
           {/* Most Skipped Steps */}
-          <div className="bg-gray-800 p-6 rounded-2xl">
+          <div className="bg-white/5 p-6 rounded-2xl">
             <h2 className="text-xl font-semibold mb-6">Most Skipped Steps</h2>
             <div className="space-y-6">
               {[
