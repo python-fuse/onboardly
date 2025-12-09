@@ -1,8 +1,8 @@
-// "use client"; // Already present, but kept for context
+"use client";
 
 import Button from "../shared/button";
-// REMOVED: import "../../app/globals.css"; (Global CSS should only be in layout.tsx)
 import { CSSProperties } from "react";
+import { motion, Variants, Transition } from "framer-motion";
 
 export default function HeroSection() {
   const containerStyle: CSSProperties = {
@@ -41,6 +41,69 @@ export default function HeroSection() {
     backgroundColor: "var(--primary)",
   };
 
+  const defaultSpring: Transition = {
+    type: "spring",
+    stiffness: 100,
+  };
+
+  const ctaSpring: Transition = {
+    type: "spring",
+    stiffness: 100,
+    mass: 0.5,
+  };
+
+  const mockupTween: Transition = {
+    delay: 0.6,
+    duration: 0.8,
+    type: "tween",
+  };
+
+  const tooltipPhysics: Transition = {
+    delay: 1.4,
+    duration: 0.5,
+    type: "spring",
+    stiffness: 150,
+  };
+
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.3,
+      },
+    },
+  };
+
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0, transition: defaultSpring },
+  };
+
+  const ctaVariants: Variants = {
+    hidden: { opacity: 0, scale: 0.8 },
+    show: { opacity: 1, scale: 1, transition: ctaSpring },
+    hover: { scale: 1.05, boxShadow: "0px 0px 8px rgba(255, 255, 255, 0.3)" },
+    tap: { scale: 0.95 },
+  };
+
+  const mockupVariants: Variants = {
+    hidden: { opacity: 0, y: 50 },
+    show: { opacity: 1, y: 0, transition: mockupTween },
+  };
+
+  const tooltipEntrance: Variants = {
+    initial: { opacity: 0, x: 20, rotate: 5, scale: 0.9 },
+    animate: {
+      opacity: 1,
+      x: 0,
+      rotate: 0,
+      scale: 1,
+      transition: tooltipPhysics,
+    },
+  };
+
   return (
     <div className="px-4">
       <div
@@ -55,35 +118,60 @@ export default function HeroSection() {
         ></div>
 
         {/* Content */}
-        <div className="flex flex-col gap-4 z-20">
-          <h1
-            // ✅ Responsive Text Sizing
+        <motion.div
+          className="flex flex-col gap-4 z-20"
+          variants={containerVariants}
+          initial="hidden"
+          animate="show"
+        >
+          <motion.h1
+            variants={itemVariants}
             className="text-white text-4xl font-extrabold sm:text-5xl md:text-6xl lg:text-[4rem] leading-tight tracking-[-0.033em]"
           >
             Build Onboarding That Clicks
-          </h1>
-          <p
-            // ✅ Responsive Text Sizing
+          </motion.h1>
+          <motion.p
+            variants={itemVariants}
             className="text-white/80 max-w-2xl mx-auto text-base sm:text-lg leading-relaxed"
           >
             Create beautiful, embeddable onboarding tours for your users in
             minutes with our powerful no-code platform.
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
         {/* CTA Buttons */}
         <div className="flex flex-wrap gap-3 justify-center z-20">
-          <Button variant="primary" size="lg">
-            Start for Free
-          </Button>
-          <Button variant="secondary" size="lg">
-            See Demo
-          </Button>
+          <motion.div
+            variants={ctaVariants}
+            initial="hidden"
+            animate="show"
+            whileHover="hover"
+            whileTap="tap"
+          >
+            <Button variant="primary" size="lg">
+              Start for Free
+            </Button>
+          </motion.div>
+          <motion.div
+            variants={ctaVariants}
+            initial="hidden"
+            animate="show"
+            whileHover="hover"
+            whileTap="tap"
+          >
+            <Button variant="secondary" size="lg">
+              See Demo
+            </Button>
+          </motion.div>
         </div>
 
         {/* Mockup Browser Window */}
-        {/* Added horizontal padding to prevent mockup overflow on very small screens */}
-        <div className="relative mt-8 w-full max-w-3xl aspect-video z-20 px-4 sm:px-0">
+        <motion.div
+          variants={mockupVariants}
+          initial="hidden"
+          animate="show"
+          className="relative mt-8 w-full max-w-3xl aspect-video z-20 px-4 sm:px-0"
+        >
           <div
             className="absolute inset-0 rounded-xl border shadow-2xl backdrop-blur-md"
             style={browserWindowStyle}
@@ -101,8 +189,10 @@ export default function HeroSection() {
               <div className="w-1/2 h-3 sm:h-4 bg-white/10 rounded mt-4"></div>
 
               {/* Tour Tooltip */}
-              <div
-                // ✅ Responsive Tooltip Positioning and Size
+              <motion.div
+                variants={tooltipEntrance}
+                initial="initial"
+                animate="animate"
                 className="absolute top-6 right-4 p-3 sm:top-12 sm:right-12 sm:p-4 rounded-lg shadow-lg border w-48 sm:w-56"
                 style={tooltipStyle}
               >
@@ -125,10 +215,10 @@ export default function HeroSection() {
                   className="absolute -left-2 top-1/2 w-3 h-3 sm:w-4 sm:h-4 rotate-45"
                   style={tooltipArrowStyle}
                 ></div>
-              </div>
+              </motion.div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
