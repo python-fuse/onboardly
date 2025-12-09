@@ -4,6 +4,7 @@ import Link from "next/link";
 import Button from "../shared/button";
 import "../../app/globals.css";
 import { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 
 export default function DashboardNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -15,6 +16,11 @@ export default function DashboardNavbar() {
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+  const router = useRouter();
+
+  const analyticsPage = () => {
+    router.push("/components/dashboard/Analytics");
   };
 
   useEffect(() => {
@@ -52,8 +58,7 @@ export default function DashboardNavbar() {
         Tours
       </Link>
       <Link
-        href="/docs"
-        onClick={closeMenu}
+        href="/dashboard/analytics"
         className="text-white/80 hover:text-white transition-colors text-lg md:text-sm font-medium leading-normal p-2 md:p-0"
       >
         Analytics
