@@ -45,11 +45,11 @@ export default function Header() {
         Features
       </Link>
       <Link
-        href="#demo"
+        href="/about"
         onClick={closeMenu}
         className="text-white/80 hover:text-white transition-colors text-lg md:text-sm font-medium leading-normal p-2 md:p-0"
       >
-        Demo
+        About
       </Link>
       <Link
         href="/docs"
