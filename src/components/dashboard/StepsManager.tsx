@@ -1,13 +1,33 @@
+"use client";
 import React from "react";
 
 export default function StepsManager() {
   return (
     <div className="min-h-screen text-white p-8">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold mb-2">Steps Manager</h1>
-        <p className="text-gray-300 mb-10">
-          Editing steps for 'New User Onboarding'
-        </p>
+        <div className="flex flex-row justify-between">
+          <div className="flex flex-col">
+            <h1 className="text-3xl font-bold mb-2">Steps Manager</h1>
+            <p className="text-gray-300 mb-10">
+              Editing steps for 'New User Onboarding'
+            </p>
+          </div>
+
+          <button
+            className="
+    px-1 py-2 
+    rounded-full 
+    bg-gray-800 
+    text-gray-300 
+    text-sm 
+    border border-gray-700 
+    hover:bg-gray-700 
+    transition
+  "
+          >
+            Back to Tours
+          </button>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
           {/* Existing Steps */}
@@ -35,7 +55,7 @@ export default function StepsManager() {
                   key={item.step}
                   className="bg-[#1C142D] rounded-xl p-5 flex items-start gap-4"
                 >
-                  <div className="bg-purple-600 text-white rounded-md px-3 py-1 text-sm font-medium">
+                  <div className="bg-[#590df2] text-white rounded-md px-3 py-1 text-sm font-medium">
                     Step {item.step}
                   </div>
                   <div>
@@ -75,7 +95,7 @@ export default function StepsManager() {
               + Add Another Step
             </button>
 
-            <button className="w-full bg-purple-600 py-3 rounded-lg font-semibold">
+            <button className="w-full bg-[#590df2] py-3 rounded-lg font-semibold">
               Save All Steps
             </button>
           </div>
