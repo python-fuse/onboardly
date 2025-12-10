@@ -68,3 +68,23 @@ button {
 .text-primary {
   color: var(--primary);
 }
+/* Add to globals.css */
+.cl-formFieldInput {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  color: white !important;
+}
+
+.cl-formFieldInput:hover {
+  background-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+.cl-formFieldInput:focus {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+  outline: none !important;
+  ring: 2px solid var(--primary) !important;
+}
+
+.cl-formFieldInput::placeholder {
+  color: rgba(255, 255, 255, 0.4) !important;
+}

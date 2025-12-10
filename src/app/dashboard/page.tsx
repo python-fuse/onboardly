@@ -1,14 +1,38 @@
 "use client";
-import { useRouter } from "next/navigation";
 
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect } from "react";
+import { useUser, UserButton } from "@clerk/nextjs";
 
 export default function MainDashboard() {
   const router = useRouter();
+  const { isLoaded, isSignedIn, user } = useUser();
+
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (isLoaded && !isSignedIn) {
+      router.push("/login");
+    }
+  }, [isLoaded, isSignedIn, router]);
+
+  // Show loading while checking auth
+  if (!isLoaded) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-white">
+        <div className="text-xl">Loading...</div>
+      </div>
+    );
+  }
+
+  // If not signed in, redirecting
+  if (!isSignedIn) {
+    return null;
+  }
 
   const tourPage = () => {
     router.push("/dashboard/managetour");
   };
+
   return (
     <div className="flex min-h-screen text-white">
       {/* Sidebar */}
@@ -50,12 +74,24 @@ export default function MainDashboard() {
         {/* Header */}
         <header className="flex justify-between items-center mb-10">
           <h1 className="text-xl font-semibold">Dashboard</h1>
-          <div className="w-9 h-9 rounded-full bg-gray-700"></div>
+          <div className="flex items-center gap-4">
+            <span className="text-sm text-gray-400">
+              {user.primaryEmailAddress?.emailAddress}
+            </span>
+            <UserButton afterSignOutUrl="/login" />
+          </div>
         </header>
 
         {/* Welcome */}
         <section className="mb-10">
-          <h2 className="text-3xl font-bold">Welcome back, User!</h2>
+          <h2 className="text-3xl font-bold">
+            Welcome back,{" "}
+            {user.firstName ||
+              user.username ||
+              user.emailAddresses[0]?.emailAddress?.split("@")[0] ||
+              "User"}
+            !
+          </h2>
           <p className="text-gray-400">Here&apos;s a summary of your tours.</p>
         </section>
 

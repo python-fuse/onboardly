@@ -69,7 +69,7 @@ export default function Header() {
         variant="secondary"
         size="md"
         className="w-full md:w-auto"
-        onClick={() => router.push("/auth/login")}
+        onClick={() => router.push("/login")}
       >
         Login
       </Button>
@@ -77,7 +77,7 @@ export default function Header() {
         variant="primary"
         size="md"
         className="w-full md:w-auto"
-        onClick={() => router.push("/auth/signup")}
+        onClick={() => router.push("/signup")}
       >
         Sign Up
       </Button>
@@ -124,9 +124,7 @@ export default function Header() {
         </div>
 
         {/* Auth Buttons - Right (Desktop only) */}
-        <div className="hidden md:block">
-          {AuthButtons}
-        </div>
+        <div className="hidden md:block">{AuthButtons}</div>
 
         {/* Mobile Menu Toggle */}
         <button
