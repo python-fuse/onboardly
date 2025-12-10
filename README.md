@@ -1,22 +1,22 @@
-# :dart: Onboardly
+# 🎯 Onboardly
 > Create, manage, and deploy beautiful product tours for your web applications - no code required.
 Onboardly is a complete SaaS platform that makes it easy to build interactive product tours and onboarding experiences for your users. Create tours in minutes, track engagement with built-in analytics, and deploy with a simple script tag.
 ![Onboardly Dashboard](https://img.shields.io/badge/Status-MVP_Ready-success)
 ![Next.js](https://img.shields.io/badge/Next.js-15-black)
 ![Convex](https://img.shields.io/badge/Convex-Backend-orange)
 ![Clerk](https://img.shields.io/badge/Auth-Clerk-blue)
-## :sparkles: Features
-### :art: **Visual Tour Builder**
+## ✨ Features
+### 🎨 **Visual Tour Builder**
 - **No-code interface** - Create tours without writing a single line of code
 - **Live preview** - See how your tours will look before publishing
 - **Step management** - Add, edit, and reorder tour steps with ease
 - **Smart targeting** - Use CSS selectors to target any element on your page
-### :bar_chart: **Real-time Analytics**
+### 📈  **Real-time Analytics**
 - **Tour performance** - Track starts, completions, and skip rates
 - **User insights** - Understand how users interact with your tours
 - **Completion rates** - See which tours perform best
 - **Event tracking** - Automatic tracking of tour_started, step_completed, tour_completed, and tour_skipped events
-### :rocket: **Easy Deployment**
+### 🚀  **Easy Deployment**
 - **One script tag** - Add tours to any website with a single line of code
 - **Auto-loading** - Tours fetch configuration automatically from our CDN
 - **Framework agnostic** - Works with vanilla JS, React, Vue, Angular, and more
@@ -26,7 +26,7 @@ Onboardly is a complete SaaS platform that makes it easy to build interactive pr
 - **Real-time database** - Powered by Convex for instant updates
 - **Scalable architecture** - Built on Next.js 15 with app router
 - **Protected routes** - Dashboard secured with middleware
-## :rocket: Quick Start
+## 🚀  Quick Start
 ### Prerequisites
 - Node.js 18+ and pnpm
 - A [Clerk](https://clerk.com) account for authentication
@@ -65,7 +65,7 @@ This will:
 pnpm dev
 ```
 Open [http://localhost:3000](http://localhost:3000) to see your app! :tada:
-## :book: Usage
+## 📖 Usage
 ### Creating Your First Tour
 1. **Sign up** at `/signup` with your Google account
 2. **Create a tour** in the dashboard at `/dashboard/managetour`
@@ -116,7 +116,7 @@ export default function App() {
   );
 }
 ```
-## :building_construction: Tech Stack
+## 🏗️ Tech Stack
 ### Frontend
 - **Next.js 15** - React framework with App Router
 - **TypeScript** - Type safety throughout
@@ -183,20 +183,20 @@ web/
   userAgent?: string;      // Browser info
 }
 ```
-## :closed_lock_with_key: Authentication
+## 🔐 Authentication
 Onboardly uses Clerk for authentication with the following configuration:
 - **OAuth Providers**: Google (primary)
 - **JWT Integration**: Convex validates Clerk JWTs
 - **Protected Routes**: Dashboard routes require authentication
 - **Middleware**: Automatic redirect to login for unauthenticated users
-## :bar_chart: Analytics
+## 📈 Analytics
 Built-in analytics track:
 - **Tour Started** - When a user begins a tour
 - **Step Completed** - When each step is completed
 - **Tour Completed** - When the entire tour is finished
 - **Tour Skipped** - When a user skips the tour
 Analytics are stored in Convex and displayed in real-time on the dashboard.
-## :art: Architecture Patterns
+## 🎨 Architecture Patterns
 ### Layout Wrappers
 - **PageWrapper** - Header + Footer (landing, about pages)
 - **DocsWrapper** - Header only (documentation pages)
@@ -230,7 +230,7 @@ NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
 CLERK_SECRET_KEY
 CLERK_JWT_ISSUER_DOMAIN
 ```
-## :hammer_and_wrench: Development
+## 🛠️ Development
 ### Available Scripts
 ```bash
 pnpm dev          # Start dev server
@@ -243,23 +243,23 @@ npx convex dev    # Start Convex dev environment
 - **TypeScript** - Strict mode enabled
 - **ESLint** - Enforced code standards
 - **Prettier** - Code formatting (via formatter)
-## :handshake: Contributing
+## 🤝 Contributing
 We welcome contributions! Please follow these steps:
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
 3. Commit your changes (`git commit -m 'Add amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
-## :memo: License
+## 📄 License
 This project is licensed under the MIT License.
-## :link: Links
+## 🔗 Links
 - **Widget Repository**: [onboardly_widget](https://github.com/python-fuse/onboardly_widget)
 - **Widget Demo**: [Widget Documentation](https://github.com/python-fuse/onboardly_widget#readme)
 - **Live Demo**: Coming soon!
-## :speech_balloon: Support
+## 💬 Support
 - **Issues**: [GitHub Issues](https://github.com/python-fuse/onboardly/issues)
 - **Documentation**: `/documentation` route in the app
-## :dart: Roadmap
+## 🎯 Roadmap
 - [x] MVP - Complete tour creation and deployment
 - [x] Analytics dashboard
 - [x] Google OAuth
@@ -269,4 +269,4 @@ This project is licensed under the MIT License.
 - [ ] Advanced targeting rules
 - [ ] Multi-language support
 ---
-Built with :heart: by Team Ottoman using Next.js, Convex, and Clerk
+Built with ❤️ by Team Ottoman using Next.js, Convex, and Clerk
