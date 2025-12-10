@@ -1,13 +1,15 @@
 "use client";
 
 import { SignUp } from "@clerk/nextjs";
+import AuthWrapper from "@/src/components/shared/AuthWrapper";
 import "../../../app/globals.css";
 
 export default function SignupPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <>
-        <style jsx global>{`
+    <AuthWrapper>
+      <div className="min-h-screen flex items-center justify-center">
+        <>
+          <style jsx global>{`
           /* Kill Clerk's outer wrapper */
           .cl-rootBox,
           .cl-component {
@@ -209,9 +211,14 @@ export default function SignupPage() {
         `}</style>
 
         <div className="w-full max-w-md">
-          <SignUp routing="hash" />
+          <SignUp 
+            routing="hash"
+            afterSignUpUrl="/dashboard"
+            redirectUrl="/dashboard"
+          />
         </div>
       </>
     </div>
+    </AuthWrapper>
   );
 }
