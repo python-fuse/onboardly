@@ -1,7 +1,7 @@
-# 🎯 Onboardly
+# 🎯 Guidely
 > Create, manage, and deploy beautiful product tours for your web applications - no code required.
-Onboardly is a complete SaaS platform that makes it easy to build interactive product tours and onboarding experiences for your users. Create tours in minutes, track engagement with built-in analytics, and deploy with a simple script tag.
-![Onboardly Dashboard](https://img.shields.io/badge/Status-MVP_Ready-success)
+Guidely is a complete SaaS platform that makes it easy to build interactive product tours and onboarding experiences for your users. Create tours in minutes, track engagement with built-in analytics, and deploy with a simple script tag.
+![Guidely Dashboard](https://img.shields.io/badge/Status-MVP_Ready-success)
 ![Next.js](https://img.shields.io/badge/Next.js-15-black)
 ![Convex](https://img.shields.io/badge/Convex-Backend-orange)
 ![Clerk](https://img.shields.io/badge/Auth-Clerk-blue)
