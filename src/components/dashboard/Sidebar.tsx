@@ -14,7 +14,7 @@ const navItems = [
   { name: "Dashboard", href: "/dashboard" },
   { name: "Tours", href: "/dashboard/managetour" },
   { name: "Analytics", href: "/dashboard/analytics" },
-  { name: "Embed", href: "/dashboard/embed" },
+  { name: "Embed Script", href: "/dashboard/embed" },
 ];
 
 export default function Sidebar({ onCreateClick }: SidebarProps) {

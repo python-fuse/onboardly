@@ -34,11 +34,12 @@ export default function DocsLayout({
   return (
     <DocsWrapper>
       <div className="min-h-screen bg-[#161023] text-white font-sans">
-        <div className="flex">
+        {/* Container with max-width for large screens */}
+        <div className="flex max-w-[1400px] mx-auto">
           {/* Sidebar - Sticky and hidden on mobile */}
-          <aside className="hidden md:block sticky top-[61px] h-[calc(100vh-61px)] w-64 border-r border-white/10 p-6 overflow-y-auto">
+          <aside className="hidden md:block sticky top-[61px] h-[calc(100vh-61px)] w-56 lg:w-64 flex-shrink-0 border-r border-white/10 p-4 lg:p-6 overflow-y-auto">
             <div className="flex h-full flex-col">
-              <h1 className="text-white text-base font-medium mb-4 px-3">
+              <h1 className="text-white text-sm lg:text-base font-medium mb-4 px-3">
                 Guidely Docs
               </h1>
               <div className="flex flex-col gap-1">
@@ -63,8 +64,8 @@ export default function DocsLayout({
             </div>
           </aside>
 
-          {/* Main Content */}
-          <main className="flex-1 p-6 md:p-10 lg:p-16">
+          {/* Main Content - Responsive padding and proper overflow handling */}
+          <main className="flex-1 w-full min-w-0 p-4 sm:p-6 md:p-8 lg:p-12 xl:p-16">
             <div className="max-w-4xl mx-auto">{children}</div>
           </main>
         </div>
