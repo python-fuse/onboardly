@@ -3,52 +3,80 @@
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import Sidebar from "@/src/components/dashboard/Sidebar";
+import { useQuery, useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { Id } from "@/convex/_generated/dataModel";
 
 export default function ManageTour() {
   const router = useRouter();
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [tourName, setTourName] = useState("");
-  const [tours, setTours] = useState([
-    {
-      name: "Welcome Tour for New Users",
-      status: "Published",
-      statusColor: "bg-green-600",
-      steps: 5,
-      views: "1.2k",
-      updated: "2 days ago",
-    },
-  ]);
 
-  const editTour = (name: string) => {
-    router.push(`/dashboard/edittour?name=${encodeURIComponent(name)}`);
+  // Fetch tours from Convex
+  const tours = useQuery(api.tours.listUserTours);
+  const createTourMutation = useMutation(api.tours.createTour);
+  const deleteTourMutation = useMutation(api.tours.deleteTour);
+
+  const editTour = (tourId: Id<"tours">) => {
+    router.push(`/dashboard/edittour?id=${tourId}`);
   };
 
-  const createTour = () => {
+  const createTour = async () => {
     if (!tourName.trim()) return;
 
-    setTours((prev) => [
-      {
-        name: tourName,
-        status: "Draft",
-        statusColor: "bg-gray-500",
-        steps: 2,
-        views: "5",
-        updated: "Just now",
-      },
-      ...prev,
-    ]);
+    try {
+      // Generate a unique tourId (used by the widget)
+      const tourId = `tour_${Date.now()}_${Math.random()
+        .toString(36)
+        .substring(2, 9)}`;
 
-    setIsCreateOpen(false);
-    setTourName("");
+      await createTourMutation({
+        name: tourName,
+        tourId,
+        autoStart: false,
+        showProgress: true,
+        allowSkip: true,
+      });
+
+      setIsCreateOpen(false);
+      setTourName("");
+    } catch (error) {
+      console.error("Failed to create tour:", error);
+      alert("Failed to create tour. Please try again.");
+    }
+  };
+
+  const deleteTour = async (tourId: Id<"tours">, tourName: string) => {
+    if (!confirm(`Are you sure you want to delete "${tourName}"?`)) return;
+
+    try {
+      await deleteTourMutation({ tourId });
+    } catch (error) {
+      console.error("Failed to delete tour:", error);
+      alert("Failed to delete tour. Please try again.");
+    }
+  };
+
+  // Format date
+  const formatDate = (timestamp: number) => {
+    const date = new Date(timestamp);
+    const now = new Date();
+    const diffInMs = now.getTime() - date.getTime();
+    const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+
+    if (diffInDays === 0) return "Today";
+    if (diffInDays === 1) return "Yesterday";
+    if (diffInDays < 7) return `${diffInDays} days ago`;
+    return date.toLocaleDateString();
   };
 
   return (
     <>
       <div className="flex min-h-screen text-white">
         {/* Sidebar */}
-        <Sidebar 
-          showCreateButton={true} 
-          onCreateClick={() => setIsCreateOpen(true)} 
+        <Sidebar
+          showCreateButton={true}
+          onCreateClick={() => setIsCreateOpen(true)}
         />
 
         {/* Main Content */}
@@ -70,90 +98,124 @@ export default function ManageTour() {
               </button>
             </div>
 
+            {/* Loading State */}
+            {tours === undefined && (
+              <div className="text-center py-12 text-gray-400">
+                Loading tours...
+              </div>
+            )}
+
+            {/* Empty State */}
+            {tours && tours.length === 0 && (
+              <div className="text-center py-12 text-gray-400">
+                <p className="mb-4">
+                  No tours yet. Create your first tour to get started!
+                </p>
+                <button
+                  onClick={() => setIsCreateOpen(true)}
+                  className="bg-purple-600 px-6 py-3 rounded-lg text-sm font-semibold hover:bg-purple-700 transition"
+                >
+                  Create Your First Tour
+                </button>
+              </div>
+            )}
+
             {/* Desktop Table View */}
-            <div className="hidden md:block bg-gray-800 rounded-2xl overflow-hidden">
-              <table className="w-full text-sm">
-                <thead className="text-gray-400 bg-gray-900">
-                  <tr>
-                    <th className="text-left px-6 py-3">Tour Name</th>
-                    <th>Status</th>
-                    <th>Steps</th>
-                    <th>Views</th>
-                    <th>Time</th>
-                    <th className="text-right px-6">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {tours.map((row, i) => (
-                    <tr key={i} className="border-t border-gray-700">
-                      <td className="px-6 py-4">{row.name}</td>
-                      <td>
-                        <span
-                          className={`text-xs px-2 py-1 rounded-full ${row.statusColor}`}
-                        >
-                          {row.status}
-                        </span>
-                      </td>
-                      <td>{row.steps}</td>
-                      <td>{row.views}</td>
-                      <td className="text-gray-400">{row.updated}</td>
-                      <td className="px-6 text-right space-x-4">
-                        <span
-                          onClick={() => editTour(row.name)}
-                          className="cursor-pointer text-purple-400 hover:underline"
-                        >
-                          Edit
-                        </span>
-                        <span className="cursor-pointer text-gray-400 hover:text-red-400">
-                          Delete
-                        </span>
-                      </td>
+            {tours && tours.length > 0 && (
+              <div className="hidden md:block bg-gray-800 rounded-2xl overflow-hidden">
+                <table className="w-full text-sm">
+                  <thead className="text-gray-400 bg-gray-900">
+                    <tr>
+                      <th className="text-left px-6 py-3">Tour Name</th>
+                      <th>Status</th>
+                      <th>Steps</th>
+                      <th>Updated</th>
+                      <th className="text-right px-6">Actions</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody>
+                    {tours.map((tour) => (
+                      <tr key={tour._id} className="border-t border-gray-700">
+                        <td className="px-6 py-4">{tour.name}</td>
+                        <td>
+                          <span
+                            className={`text-xs px-2 py-1 rounded-full ${
+                              tour.published ? "bg-green-600" : "bg-gray-500"
+                            }`}
+                          >
+                            {tour.published ? "Published" : "Draft"}
+                          </span>
+                        </td>
+                        <td className="text-center">{tour.steps.length}</td>
+                        <td className="text-gray-400 text-center">
+                          {formatDate(tour.updatedAt)}
+                        </td>
+                        <td className="px-6 text-right space-x-4">
+                          <span
+                            onClick={() => editTour(tour._id)}
+                            className="cursor-pointer text-purple-400 hover:underline"
+                          >
+                            Edit
+                          </span>
+                          <span
+                            onClick={() => deleteTour(tour._id, tour.name)}
+                            className="cursor-pointer text-gray-400 hover:text-red-400"
+                          >
+                            Delete
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
 
             {/* Mobile Card View */}
-            <div className="md:hidden space-y-4">
-              {tours.map((row, i) => (
-                <div key={i} className="bg-gray-800 rounded-2xl p-4">
-                  <div className="flex justify-between items-start mb-3">
-                    <h3 className="font-semibold text-base">{row.name}</h3>
-                    <span
-                      className={`text-xs px-2 py-1 rounded-full ${row.statusColor}`}
-                    >
-                      {row.status}
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-3 gap-2 text-xs text-gray-400 mb-3">
-                    <div>
-                      <span className="block text-gray-500">Steps</span>
-                      <span className="text-white">{row.steps}</span>
+            {tours && tours.length > 0 && (
+              <div className="md:hidden space-y-4">
+                {tours.map((tour) => (
+                  <div key={tour._id} className="bg-gray-800 rounded-2xl p-4">
+                    <div className="flex justify-between items-start mb-3">
+                      <h3 className="font-semibold text-base">{tour.name}</h3>
+                      <span
+                        className={`text-xs px-2 py-1 rounded-full ${
+                          tour.published ? "bg-green-600" : "bg-gray-500"
+                        }`}
+                      >
+                        {tour.published ? "Published" : "Draft"}
+                      </span>
                     </div>
-                    <div>
-                      <span className="block text-gray-500">Views</span>
-                      <span className="text-white">{row.views}</span>
+                    <div className="grid grid-cols-2 gap-2 text-xs text-gray-400 mb-3">
+                      <div>
+                        <span className="block text-gray-500">Steps</span>
+                        <span className="text-white">{tour.steps.length}</span>
+                      </div>
+                      <div>
+                        <span className="block text-gray-500">Updated</span>
+                        <span className="text-white">
+                          {formatDate(tour.updatedAt)}
+                        </span>
+                      </div>
                     </div>
-                    <div>
-                      <span className="block text-gray-500">Updated</span>
-                      <span className="text-white">{row.updated}</span>
+                    <div className="flex gap-4 text-sm">
+                      <span
+                        onClick={() => editTour(tour._id)}
+                        className="cursor-pointer text-purple-400 font-medium"
+                      >
+                        Edit
+                      </span>
+                      <span
+                        onClick={() => deleteTour(tour._id, tour.name)}
+                        className="cursor-pointer text-gray-400 hover:text-red-400"
+                      >
+                        Delete
+                      </span>
                     </div>
                   </div>
-                  <div className="flex gap-4 text-sm">
-                    <span
-                      onClick={() => editTour(row.name)}
-                      className="cursor-pointer text-purple-400 font-medium"
-                    >
-                      Edit
-                    </span>
-                    <span className="cursor-pointer text-gray-400 hover:bg-white hover:rounded-sm hover:px-4 hover:text-red-400">
-                      Delete
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
         </main>
       </div>

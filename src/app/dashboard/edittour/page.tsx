@@ -1,15 +1,127 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useQuery, useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { Id } from "@/convex/_generated/dataModel";
 
 export default function EditTour() {
   const router = useRouter();
-  const stepsPage = () => {
-    router.push("/dashboard/steps");
-  };
   const searchParams = useSearchParams();
-  const tourName = searchParams.get("name") || "My First Tour";
+  const tourIdParam = searchParams.get("id");
+  const tourId = tourIdParam as Id<"tours"> | null;
+  
+  const [tourName, setTourName] = useState("");
+  const [hasChanges, setHasChanges] = useState(false);
+  
+  // Fetch tour data
+  const tour = useQuery(
+    api.tours.getTour,
+    tourId ? { tourId } : "skip"
+  );
+  
+  const updateTourMutation = useMutation(api.tours.updateTour);
+  const publishTourMutation = useMutation(api.tours.publishTour);
+  
+  // Initialize tour name when data loads
+  useEffect(() => {
+    if (tour) {
+      setTourName(tour.name);
+    }
+  }, [tour]);
+  
+  const handleSave = async () => {
+    if (!tourId || !tour) return;
+    
+    try {
+      await updateTourMutation({
+        tourId,
+        name: tourName,
+      });
+      setHasChanges(false);
+      alert("Tour saved successfully!");
+    } catch (error) {
+      console.error("Failed to save tour:", error);
+      alert("Failed to save tour. Please try again.");
+    }
+  };
+  
+  const handlePublish = async () => {
+    if (!tourId) return;
+    
+    if (tour && tour.steps.length === 0) {
+      alert("Please add at least one step before publishing.");
+      return;
+    }
+    
+    try {
+      const scriptId = await publishTourMutation({ tourId });
+      alert("Tour published successfully!");
+      router.push(`/dashboard/embed?scriptId=${scriptId}`);
+    } catch (error) {
+      console.error("Failed to publish tour:", error);
+      alert("Failed to publish tour. Please try again.");
+    }
+  };
+  
+  const deleteStep = async (stepId: string) => {
+    if (!tourId || !tour) return;
+    
+    if (!confirm("Are you sure you want to delete this step?")) return;
+    
+    try {
+      const updatedSteps = tour.steps.filter((s) => s.id !== stepId);
+      await updateTourMutation({
+        tourId,
+        steps: updatedSteps,
+      });
+    } catch (error) {
+      console.error("Failed to delete step:", error);
+      alert("Failed to delete step. Please try again.");
+    }
+  };
+  
+  if (!tourId) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-white">
+        <div className="text-center">
+          <p className="text-xl mb-4">Invalid tour ID</p>
+          <button
+            onClick={() => router.push("/dashboard/managetour")}
+            className="text-purple-400 hover:underline"
+          >
+            Go back to tours
+          </button>
+        </div>
+      </div>
+    );
+  }
+  
+  if (tour === undefined) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-white">
+        <div className="text-xl">Loading...</div>
+      </div>
+    );
+  }
+  
+  if (tour === null) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-white">
+        <div className="text-center">
+          <p className="text-xl mb-4">Tour not found</p>
+          <button
+            onClick={() => router.push("/dashboard/managetour")}
+            className="text-purple-400 hover:underline"
+          >
+            Go back to tours
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex h-auto min-h-screen w-full flex-col font-display bg-[#0d0b14] text-white">
       {/* Header */}
@@ -35,17 +147,24 @@ export default function EditTour() {
         </div>
 
         <div className="flex items-center gap-2">
-          <button className="h-10 min-w-[84px] px-4 rounded-lg bg-white/10 text-white text-sm font-bold hover:bg-white/20">
-            Preview
+          <button 
+            onClick={() => router.push("/dashboard/managetour")}
+            className="h-10 min-w-[84px] px-4 rounded-lg bg-white/10 text-white text-sm font-bold hover:bg-white/20"
+          >
+            Back
           </button>
           <button
-            className="h-10 min-w-[84px] px-4 rounded-lg bg-white/10 text-white text-sm font-bold opacity-50 cursor-not-allowed"
-            disabled
+            onClick={handleSave}
+            disabled={!hasChanges}
+            className="h-10 min-w-[84px] px-4 rounded-lg bg-white/10 text-white text-sm font-bold hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Save
           </button>
-          <button className="h-10 min-w-[84px] px-4 rounded-lg bg-primary text-white text-sm font-bold hover:bg-primary/90">
-            Publish
+          <button 
+            onClick={handlePublish}
+            className="h-10 min-w-[84px] px-4 rounded-lg bg-primary text-white text-sm font-bold hover:bg-primary/90"
+          >
+            {tour.published ? "Update" : "Publish"}
           </button>
         </div>
       </header>
@@ -82,50 +201,74 @@ export default function EditTour() {
                 <input
                   className="h-14 w-full rounded-lg border border-white/20 bg-[#1a1625] p-4 text-white placeholder:text-white/40 focus:border-primary focus:ring-2 focus:ring-primary/20"
                   placeholder="e.g. New User Onboarding"
-                  defaultValue={tourName}
+                  value={tourName}
+                  onChange={(e) => {
+                    setTourName(e.target.value);
+                    setHasChanges(true);
+                  }}
                 />
               </label>
 
               {/* Steps */}
               <div className="flex flex-col gap-4">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-2xl font-bold text-white">Steps</h2>
+                  <h2 className="text-2xl font-bold text-white">
+                    Steps ({tour.steps.length})
+                  </h2>
 
                   <button
-                    onClick={stepsPage}
+                    onClick={() => router.push(`/dashboard/steps?tourId=${tourId}`)}
                     className="flex h-10 items-center gap-2 rounded-lg bg-primary px-4 text-white font-bold hover:bg-primary/90"
                   >
-                    <span className="material-symbols-outlined text-lg">
-                      add
-                    </span>
-                    Step
+                    <span className="text-lg">+</span>
+                    Add Step
                   </button>
                 </div>
 
-                <div className="flex flex-col divide-y divide-white/10 rounded-xl border border-white/10 bg-[#1a1625] shadow-sm">
-                  {[
-                    "Welcome to the Dashboard",
-                    "Click on the Profile Icon",
-                    "Update your Settings",
-                  ].map((step, index) => (
-                    <div
-                      key={index}
-                      className="group flex items-center gap-4 p-4 cursor-grab"
+                {tour.steps.length === 0 ? (
+                  <div className="flex flex-col items-center justify-center py-12 border border-dashed border-white/20 rounded-xl">
+                    <p className="text-white/60 mb-4">No steps yet. Add your first step to get started.</p>
+                    <button
+                      onClick={() => router.push(`/dashboard/steps?tourId=${tourId}`)}
+                      className="bg-primary px-6 py-2 rounded-lg text-white font-semibold hover:bg-primary/90"
                     >
-                      {/* <span className="material-symbols-outlined text-white/40">
-                        drag_indicator
-                      </span> */}
+                      Add First Step
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex flex-col divide-y divide-white/10 rounded-xl border border-white/10 bg-[#1a1625] shadow-sm">
+                    {tour.steps.map((step, index) => (
+                      <div
+                        key={step.id}
+                        className="group flex items-center gap-4 p-4"
+                      >
+                        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/20 text-primary font-bold">
+                          {index + 1}
+                        </div>
 
-                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/20 text-primary font-bold">
-                        {index + 1}
+                        <div className="flex-1">
+                          <p className="text-white font-medium">{step.title}</p>
+                          <p className="text-white/60 text-sm">{step.targetSelector}</p>
+                        </div>
+
+                        <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <button
+                            onClick={() => router.push(`/dashboard/steps?tourId=${tourId}&editStep=${step.id}`)}
+                            className="text-purple-400 hover:text-purple-300 text-sm font-medium"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => deleteStep(step.id)}
+                            className="text-red-400 hover:text-red-300 text-sm font-medium"
+                          >
+                            Delete
+                          </button>
+                        </div>
                       </div>
-
-                      <a className="flex-1 text-white hover:text-primary">
-                        {step}
-                      </a>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </div>
