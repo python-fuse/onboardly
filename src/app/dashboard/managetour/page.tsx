@@ -1,178 +1,203 @@
-// app/dashboard/page.tsx
 "use client";
 
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
-const toursData = [
-  {
-    name: "Welcome Tour for New Users",
-    status: "Published",
-    steps: 5,
-    views: "1.2k",
-    updated: "2 days ago",
-  },
-  {
-    name: "Dashboard Feature Introduction",
-    status: "Draft",
-    steps: 8,
-    views: 250,
-    updated: "5 days ago",
-  },
-  {
-    name: "Advanced Settings Guide",
-    status: "Published",
-    steps: 12,
-    views: "8.9k",
-    updated: "1 week ago",
-  },
-  {
-    name: "Billing Page Walkthrough",
-    status: "Archived",
-    steps: 6,
-    views: "5.1k",
-    updated: "3 weeks ago",
-  },
-];
+export default function ManageTour() {
+  const router = useRouter();
 
-export default function DashboardPage() {
-  const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState("All Statuses");
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [tourName, setTourName] = useState("");
+  const [tours, setTours] = useState([
+    {
+      name: "Welcome Tour for New Users",
+      status: "Published",
+      statusColor: "bg-green-600",
+      steps: 5,
+      views: "1.2k",
+      updated: "2 days ago",
+    },
+  ]);
 
-  const filteredTours = toursData.filter((tour) => {
-    return (
-      (filter === "All Statuses" || tour.status === filter) &&
-      tour.name.toLowerCase().includes(search.toLowerCase())
-    );
-  });
-
-  const getBadgeClass = (status: string) => {
-    switch (status) {
-      case "Published":
-        return "bg-green-100/10 text-green-400";
-      case "Draft":
-        return "bg-gray-100/10 text-gray-400";
-      case "Archived":
-        return "bg-yellow-100/10 text-yellow-400";
-      default:
-        return "bg-gray-100/10 text-gray-400";
-    }
+  const editTour = (name) => {
+    router.push(`/dashboard/edittour?name=${encodeURIComponent(name)}`);
   };
 
+  const createTour = () => {
+    if (!tourName.trim()) return;
+
+    setTours((prev) => [
+      {
+        name: tourName,
+        status: "Draft",
+        statusColor: "bg-gray-500",
+        steps: 2,
+        views: "5",
+        updated: "Just now",
+      },
+      ...prev,
+    ]);
+
+    setIsCreateOpen(false);
+    setTourName("");
+  };
+
+  const sidebarItems = [
+    { label: "Home", path: "/dashboard" },
+    { label: "Tours", path: "/dashboard/managetour" },
+    { label: "Analytics", path: "/dashboard/analytics" },
+    { label: "Settings", path: "/dashboard/settings" },
+    { label: "Help", path: "/dashboard/help" },
+  ];
+
   return (
-    <div className="flex h-auto min-h-screen w-full flex-col font-display bg-[#0d0b14] text-white">
-
-      {/* Main Content */}
-      <main className="flex-1 overflow-y-auto">
-        <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-
-          {/* Page Heading */}
-          <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
-            <div className="flex flex-col">
-              <h1 className="text-white text-4xl font-black leading-tight tracking-[-0.033em]">
-                Tours
-              </h1>
-              <p className="text-[#a490cb] text-base font-normal leading-normal mt-1">
-                Manage and create new onboarding tours.
-              </p>
+    <>
+      <div className="flex min-h-screen text-white">
+        {/* Sidebar */}
+        <aside className="w-56 shrink-0 border-r border-gray-800 px-4 py-6 flex flex-col justify-between">
+          <div>
+            <div className="mb-8">
+              <h2 className="font-semibold text-sm">Guidely Inc.</h2>
+              <p className="text-xs text-gray-400">Workspace</p>
             </div>
-            <button className="flex min-w-[84px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors">
-              <span
-                className="material-symbols-outlined text-xl"
-                style={{ fontVariationSettings: "'FILL' 1" }}
-              >
-                add
-              </span>
-              <span className="truncate">Create Tour</span>
+
+            <nav className="space-y-2 text-sm">
+              {sidebarItems.map((item) => (
+                <div
+                  key={item.label}
+                  onClick={() => router.push(item.path)}
+                  className={`px-3 py-2 rounded-lg cursor-pointer transition ${
+                    item.label === "Tours"
+                      ? "bg-purple-600 text-white"
+                      : "text-gray-400 hover:bg-gray-800"
+                  }`}
+                >
+                  {item.label}
+                </div>
+              ))}
+            </nav>
+          </div>
+
+          <div className="space-y-4">
+            <button
+              onClick={() => setIsCreateOpen(true)}
+              className="w-full bg-purple-600 rounded-lg py-2 text-sm font-semibold hover:bg-purple-700 transition"
+            >
+              New Tour
             </button>
+            <div className="text-xs text-gray-500">Docs</div>
+            <div className="text-xs text-gray-500">Support</div>
           </div>
+        </aside>
 
-          {/* ToolBar */}
-          <div className="mb-6 flex justify-between gap-4">
-            <div className="relative w-full max-w-xs">
-              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                <span className="material-symbols-outlined text-gray-500">search</span>
+        {/* Main Content */}
+        <main className="flex-1 px-8 py-6">
+          <div className="max-w-6xl mx-auto">
+            {/* Header */}
+            <div className="flex justify-between items-start mb-6">
+              <div>
+                <h1 className="text-2xl font-bold">Tours</h1>
+                <p className="text-sm text-gray-400">
+                  Manage and create new onboarding tours.
+                </p>
               </div>
-              <input
-                type="text"
-                placeholder="Search tours..."
-                className="block w-full rounded-lg border-gray-200/10 bg-white/5 dark:bg-[#221834] py-2 pl-10 pr-4 text-sm text-white placeholder:text-gray-500 focus:border-primary focus:ring-primary"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-            </div>
-
-            <div className="relative">
-              <select
-                value={filter}
-                onChange={(e) => setFilter(e.target.value)}
-                className="appearance-none w-full rounded-lg border-gray-200/10 bg-white/5 dark:bg-[#221834] py-2 pl-3 pr-10 text-sm text-white focus:border-primary focus:ring-primary"
+              <button
+                onClick={() => setIsCreateOpen(true)}
+                className="bg-purple-600 px-4 py-2 rounded-full text-sm font-semibold hover:bg-purple-700 transition"
               >
-                <option>All Statuses</option>
-                <option>Published</option>
-                <option>Draft</option>
-                <option>Archived</option>
-              </select>
-              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2">
-                <span className="material-symbols-outlined text-gray-500">expand_more</span>
-              </div>
+                + Create Tour
+              </button>
             </div>
-          </div>
 
-          {/* Table */}
-          <div className="overflow-hidden rounded-xl border border-gray-200/10 dark:border-[#433168] bg-transparent dark:bg-[#161023]">
-            <div className="w-full">
-              <table className="min-w-full divide-y divide-gray-200/10 dark:divide-[#433168]">
-                <thead className="bg-gray-50/5 dark:bg-[#221834]">
+            {/* Table */}
+            <div className="bg-gray-800 rounded-2xl overflow-hidden">
+              <table className="w-full text-sm">
+                <thead className="text-gray-400 bg-gray-900">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-white w-[230px]">
-                      Tour Name
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-white">Status</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-white">Steps</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-white">Views</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-white">Last Updated</th>
-                    <th className="relative px-6 py-3"><span className="sr-only">Actions</span></th>
+                    <th className="text-left px-6 py-3">Tour Name</th>
+                    <th>Status</th>
+                    <th>Steps</th>
+                    <th>Views</th>
+                    <th>Time</th>
+                    <th className="text-right px-6">Actions</th>
                   </tr>
                 </thead>
 
-                <tbody className="divide-y divide-gray-200/10 dark:divide-[#433168]">
-                  {filteredTours.map((tour, idx) => (
-                    <tr key={idx}>
-                      {/* Tour Name — Reduced Width + Truncate */}
-                      <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-white w-[230px] truncate">
-                        {tour.name}
-                      </td>
+                <tbody>
+                  {tours.map((row, i) => (
+                    <tr key={i} className="border-t border-gray-700">
+                      <td className="px-6 py-4">{row.name}</td>
 
-                      <td className="whitespace-nowrap px-6 py-4">
-                        <span className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium ${getBadgeClass(tour.status)}`}>
-                          {tour.status}
+                      <td>
+                        <span
+                          className={`text-xs px-2 py-1 rounded-full ${row.statusColor}`}
+                        >
+                          {row.status}
                         </span>
                       </td>
 
-                      <td className="whitespace-nowrap px-6 py-4 text-sm text-white">{tour.steps}</td>
-                      <td className="whitespace-nowrap px-6 py-4 text-sm text-white">{tour.views}</td>
-                      <td className="whitespace-nowrap px-6 py-4 text-sm text-white">{tour.updated}</td>
+                      <td>{row.steps}</td>
+                      <td>{row.views}</td>
+                      <td className="text-gray-400">{row.updated}</td>
 
-                      <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
-                        <div className="flex items-center justify-end gap-2">
-                          <button className="p-2 text-gray-400 hover:text-white transition-colors">
-                            <span className="material-symbols-outlined text-xl">edit</span>
-                          </button>
-                          <button className="p-2 text-gray-400 hover:text-red-400 transition-colors">
-                            <span className="material-symbols-outlined text-xl">delete</span>
-                          </button>
-                        </div>
+                      <td className="px-6 text-right space-x-4">
+                        <span
+                          onClick={() => editTour(row.name)}
+                          className="cursor-pointer text-purple-400 hover:underline"
+                        >
+                          Edit
+                        </span>
+
+                        <span className="cursor-pointer text-gray-400 hover:text-red-400">
+                          Delete
+                        </span>
                       </td>
                     </tr>
                   ))}
                 </tbody>
-
               </table>
             </div>
           </div>
+        </main>
+      </div>
 
+      {/* Create Tour Modal */}
+      {isCreateOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+          <div className="bg-gray-900 w-full max-w-md rounded-2xl p-6">
+            <h2 className="text-lg font-semibold mb-1">Create new tour</h2>
+            <p className="text-sm text-gray-400 mb-4">
+              Give your tour a clear and descriptive name.
+            </p>
+
+            <input
+              value={tourName}
+              onChange={(e) => setTourName(e.target.value)}
+              placeholder="Tour name"
+              className="w-full bg-gray-800 px-4 py-2 rounded-lg text-sm outline-none mb-6"
+            />
+
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => {
+                  setIsCreateOpen(false);
+                  setTourName("");
+                }}
+                className="px-4 py-2 text-sm text-gray-400 hover:text-white"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={createTour}
+                disabled={!tourName.trim()}
+                className="px-4 py-2 rounded-lg text-sm font-semibold bg-purple-600 disabled:opacity-50"
+              >
+                Continue
+              </button>
+            </div>
+          </div>
         </div>
-      </main>
-    </div>
+      )}
+    </>
   );
 }
