@@ -14,7 +14,9 @@ export default function LandingPage() {
     script.src = "https://timely-kheer-6c719b.netlify.app/onboardly.js";
     script.onload = function () {
       if ((window as any).TourWidget) {
-        (window as any).TourWidget.init("tour_a0ynp7xt7lprekvz1e9ri");
+        console.log("🎯 Tour Widget loaded, initializing...");
+        // Pass the scriptId (not tourId) - get this from dashboard after publishing
+        (window as any).TourWidget.init("tour_a0ynp7xt7lprekvz1e9ri"); // TODO: Replace with real scriptId from published tour
       }
     };
     document.head.appendChild(script);
