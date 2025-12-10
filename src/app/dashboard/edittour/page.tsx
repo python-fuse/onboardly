@@ -1,8 +1,15 @@
 "use client";
 
+import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 
 export default function EditTour() {
+  const router = useRouter();
+  const stepsPage = () => {
+    router.push("/dashboard/steps");
+  };
+  const searchParams = useSearchParams();
+  const tourName = searchParams.get("name") || "My First Tour";
   return (
     <div className="flex h-auto min-h-screen w-full flex-col font-display bg-[#0d0b14] text-white">
       {/* Header */}
@@ -50,11 +57,15 @@ export default function EditTour() {
             {/* Breadcrumb */}
             <div className="flex flex-col gap-4">
               <div className="flex items-center gap-2 text-white">
-                <a className="text-base text-white/70 hover:text-primary" href="#">
+                <a
+                  className="text-base text-white/70 hover:text-primary"
+                  href="#"
+                >
                   Tours
                 </a>
                 <span className="text-white/40">/</span>
-                <span className="text-base text-white">My First Tour</span>
+
+                <span className="text-base text-white">{tourName}</span>
               </div>
               <h1 className="text-4xl font-bold tracking-tight text-white">
                 Edit Tour
@@ -71,7 +82,7 @@ export default function EditTour() {
                 <input
                   className="h-14 w-full rounded-lg border border-white/20 bg-[#1a1625] p-4 text-white placeholder:text-white/40 focus:border-primary focus:ring-2 focus:ring-primary/20"
                   placeholder="e.g. New User Onboarding"
-                  defaultValue="My First Tour"
+                  defaultValue={tourName}
                 />
               </label>
 
@@ -80,9 +91,14 @@ export default function EditTour() {
                 <div className="flex items-center justify-between">
                   <h2 className="text-2xl font-bold text-white">Steps</h2>
 
-                  <button className="flex h-10 items-center gap-2 rounded-lg bg-primary px-4 text-white font-bold hover:bg-primary/90">
-                    <span className="material-symbols-outlined text-lg">add</span>
-                     Step
+                  <button
+                    onClick={stepsPage}
+                    className="flex h-10 items-center gap-2 rounded-lg bg-primary px-4 text-white font-bold hover:bg-primary/90"
+                  >
+                    <span className="material-symbols-outlined text-lg">
+                      add
+                    </span>
+                    Step
                   </button>
                 </div>
 
@@ -107,25 +123,11 @@ export default function EditTour() {
                       <a className="flex-1 text-white hover:text-primary">
                         {step}
                       </a>
-
-                      <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button className="h-8 w-8 rounded-md hover:bg-white/10 flex items-center justify-center">
-                          <span className="material-symbols-outlined text-white/60">
-                            content_copy
-                          </span>
-                        </button>
-                        <button className="h-8 w-8 rounded-md hover:bg-white/10 flex items-center justify-center">
-                          <span className="material-symbols-outlined text-white/60">
-                            delete
-                          </span>
-                        </button>
-                      </div>
                     </div>
                   ))}
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </main>
