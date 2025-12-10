@@ -42,7 +42,7 @@ export default function MainDashboard() {
   if (!isLoaded) {
     return (
       <div className="min-h-screen flex items-center justify-center text-white">
-        <div className="text-xl">Loading...</div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
       </div>
     );
   }
@@ -128,7 +128,9 @@ export default function MainDashboard() {
           </div>
 
           {recentTours === undefined && (
-            <div className="text-center py-8 text-gray-400">Loading...</div>
+            <div className="items-center justify-center py-8">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
+            </div>
           )}
 
           {recentTours && recentTours.length === 0 && (
