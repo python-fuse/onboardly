@@ -185,7 +185,7 @@ export default function Header() {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="absolute top-full left-0 w-full bg-background-dark/95 backdrop-blur-md shadow-xl border-b border-white/10 p-6 md:hidden">
+          <div className="absolute top-full left-0 w-full bg-black/95 backdrop-blur-md shadow-xl border-b border-white/10 p-6 md:hidden">
             <div className="flex flex-col items-center">
               {NavLinks}
               <div className="w-full h-px bg-white/10 my-6" />
