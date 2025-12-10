@@ -40,11 +40,11 @@ export default function Header() {
   const NavLinks = (
     <nav className="flex flex-col md:flex-row items-center gap-6 md:gap-9">
       <Link
-        href="#features"
+        href="/"
         onClick={closeMenu}
         className="text-white/80 hover:text-white transition-colors text-lg md:text-sm font-medium leading-normal p-2 md:p-0"
       >
-        Features
+        Home
       </Link>
       <Link
         href="/about"
@@ -54,7 +54,7 @@ export default function Header() {
         About
       </Link>
       <Link
-        href="/docs"
+        href="/documentation"
         onClick={closeMenu}
         className="text-white/80 hover:text-white transition-colors text-lg md:text-sm font-medium leading-normal p-2 md:p-0"
       >

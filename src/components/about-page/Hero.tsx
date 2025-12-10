@@ -59,7 +59,7 @@ export default function HeroSection() {
                 Watch Demo
               </Button>
 
-              <Button variant="primary" size="md">
+              <Button variant="primary" size="md" href="/documentation">
                 Read our Documentation
               </Button>
             </motion.div>

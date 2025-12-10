@@ -51,8 +51,15 @@ export default function ConfigurationPage() {
         <p className="max-w-md text-[#a490cb]">
           Explore our interactive demo to experience the power and simplicity of Guidely firsthand. No installation required.
         </p>
-        <button className="px-6 py-3 bg-[#590df2] text-white font-bold rounded-lg hover:bg-[#590df2]/90 transition-colors shadow-[0_0_25px_rgba(89,13,242,0.6)]">
-          Try the Live Demo
+        <button 
+            className="px-6 py-3 bg-[#590df2] text-white font-bold rounded-lg hover:bg-[#590df2]/90 transition-colors shadow-[0_0_25px_rgba(89,13,242,0.6)]" 
+        >
+          <Link
+            href="/login"
+            className='cursor-pointer'
+          >
+            Try the Live Demo
+          </Link>
         </button>
       </div>
 
