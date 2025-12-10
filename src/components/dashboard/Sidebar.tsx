@@ -14,11 +14,12 @@ const navItems = [
   { name: "Dashboard", href: "/dashboard" },
   { name: "Tours", href: "/dashboard/managetour" },
   { name: "Analytics", href: "/dashboard/analytics" },
-  { name: "Settings", href: "/dashboard/settings" },
-  { name: "Logout", href: "/dashboard/logout" },
 ];
 
-export default function Sidebar({ showCreateButton = true, onCreateClick }: SidebarProps) {
+export default function Sidebar({
+  showCreateButton = true,
+  onCreateClick,
+}: SidebarProps) {
   const router = useRouter();
   const pathname = usePathname();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -39,7 +40,11 @@ export default function Sidebar({ showCreateButton = true, onCreateClick }: Side
         className="md:hidden fixed top-4 left-4 z-50 p-2 bg-gray-800 rounded-lg hover:bg-gray-700 transition"
         aria-label="Toggle menu"
       >
-        {isSidebarOpen ? <X size={24} className="text-white" /> : <Menu size={24} className="text-white" />}
+        {isSidebarOpen ? (
+          <X size={24} className="text-white" />
+        ) : (
+          <Menu size={24} className="text-white" />
+        )}
       </button>
 
       {/* Overlay for mobile */}
@@ -58,7 +63,7 @@ export default function Sidebar({ showCreateButton = true, onCreateClick }: Side
           flex flex-col border-r border-gray-200/10 bg-[#161023] p-4 text-white
           transition-transform duration-300 ease-in-out
           z-40
-          ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+          ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}
           md:translate-x-0
         `}
       >
@@ -119,7 +124,10 @@ export default function Sidebar({ showCreateButton = true, onCreateClick }: Side
               </button>
             )}
             <div className="flex flex-col gap-2 text-xs text-gray-400">
-              <Link href="/documentation" className="hover:text-white transition-colors">
+              <Link
+                href="/documentation"
+                className="hover:text-white transition-colors"
+              >
                 Docs
               </Link>
               <a href="#" className="hover:text-white transition-colors">
