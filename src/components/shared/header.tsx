@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useUser, useClerk } from "@clerk/nextjs";
 import Button from "../shared/button";
 import "../../app/globals.css";
 import { useState, useEffect, useRef } from "react";
@@ -10,6 +11,8 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+  const { isSignedIn, user } = useUser();
+  const { signOut } = useClerk();
 
   const closeMenu = () => {
     setIsMenuOpen(false);
@@ -63,7 +66,29 @@ export default function Header() {
     </nav>
   );
 
-  const AuthButtons = (
+  const AuthButtons = isSignedIn ? (
+    <div className="flex flex-col md:flex-row gap-4 md:gap-2 w-full md:w-auto mt-6 md:mt-0 px-4 md:px-0 items-center">
+      <span className="text-white/80 text-sm">
+        {user?.firstName || user?.emailAddresses[0]?.emailAddress}
+      </span>
+      <Button
+        variant="secondary"
+        size="md"
+        className="w-full md:w-auto"
+        onClick={() => router.push("/dashboard")}
+      >
+        Dashboard
+      </Button>
+      <Button
+        variant="primary"
+        size="md"
+        className="w-full md:w-auto"
+        onClick={() => signOut(() => router.push("/"))}
+      >
+        Sign Out
+      </Button>
+    </div>
+  ) : (
     <div className="flex flex-col md:flex-row gap-4 md:gap-2 w-full md:w-auto mt-6 md:mt-0 px-4 md:px-0">
       <Button
         variant="secondary"

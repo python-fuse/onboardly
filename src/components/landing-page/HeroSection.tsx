@@ -1,10 +1,12 @@
 "use client";
 
+import { useUser } from "@clerk/nextjs";
 import Button from "../shared/button";
 import { CSSProperties } from "react";
 import { motion, Variants, Transition } from "framer-motion";
 
 export default function HeroSection() {
+  const { isSignedIn } = useUser();
   const containerStyle: CSSProperties = {
     borderRadius: "var(--radius-xl)",
     backgroundColor: "var(--background-dark)",
@@ -148,8 +150,12 @@ export default function HeroSection() {
             whileHover="hover"
             whileTap="tap"
           >
-            <Button variant="primary" size="lg" href="/signup">
-              Start for Free
+            <Button
+              variant="primary"
+              size="lg"
+              href={isSignedIn ? "/dashboard" : "/signup"}
+            >
+              {isSignedIn ? "Go to Dashboard" : "Start for Free"}
             </Button>
           </motion.div>
           <motion.div
