@@ -21,6 +21,13 @@ export default function RootLayout({
 
   return (
     <html lang="en" className="dark">
+      <head>
+        <title>Guidely - Build Onboarding That Clicks</title>
+        <meta
+          name="description"
+          content="Create beautiful, embeddable onboarding tours for your users in minutes with our powerful no-code platform."
+        />
+      </head>
       <body>
         <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden">
           {isAuthPage ? (

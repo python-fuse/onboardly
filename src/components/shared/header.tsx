@@ -69,7 +69,7 @@ export default function Header() {
         variant="secondary"
         size="md"
         className="w-full md:w-auto"
-        onClick={() => router.push("/login")}
+        onClick={() => router.push("/auth/login")}
       >
         Login
       </Button>
@@ -77,7 +77,7 @@ export default function Header() {
         variant="primary"
         size="md"
         className="w-full md:w-auto"
-        onClick={() => router.push("/signup")}
+        onClick={() => router.push("/auth/signup")}
       >
         Sign Up
       </Button>
