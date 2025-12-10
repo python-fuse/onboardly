@@ -18,6 +18,9 @@ export default function RootLayout({
   
   // Check if we're on a docs page
   const isDocsPage = pathname.startsWith("/documentation");
+  
+  // Check if we're on a dashboard page
+  const isDashboardPage = pathname.startsWith("/dashboard");
 
   return (
     <html lang="en" className="dark">
@@ -65,16 +68,21 @@ export default function RootLayout({
               </Link>
             </div>
           ) : isDocsPage ? (
-            // Docs pages - full width, no header/footer, no padding
+            // Docs pages
             <>
               <Header />
               <div className="pt-[61px]">
                 {children}
               </div>
             </>
+          ) : isDashboardPage ? (
+            // Dashboard pages
+            <>
+              {children}
+            </>
           ) : (
             <>
-              {/* Header OUTSIDE of the content container */}
+              {/* Regular pages with Header and Footer */}
               <Header />
               
               {/* Main content with padding */}
