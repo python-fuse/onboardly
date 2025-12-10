@@ -225,3 +225,11 @@ npx convex deploy
 ### Environment Variables
 Make sure to set these in Vercel:
 ```
+NEXT_PUBLIC_CONVEX_URL
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+CLERK_SECRET_KEY
+CLERK_JWT_ISSUER_DOMAIN
+```
+## :hammer_and_wrench: Development
+### Available Scripts
+```bash
