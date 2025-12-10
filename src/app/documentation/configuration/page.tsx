@@ -55,7 +55,7 @@ export default function ConfigurationPage() {
             className="px-6 py-3 bg-[#590df2] text-white font-bold rounded-lg hover:bg-[#590df2]/90 transition-colors shadow-[0_0_25px_rgba(89,13,242,0.6)]" 
         >
           <Link
-            href="/login"
+            href="https://timely-kheer-6c719b.netlify.app/test1"
             className='cursor-pointer'
           >
             Try the Live Demo

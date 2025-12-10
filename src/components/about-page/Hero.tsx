@@ -55,7 +55,7 @@ export default function HeroSection() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.5 }}
             >
-              <Button variant="secondary" size="md">
+              <Button variant="secondary" size="md" href="https://timely-kheer-6c719b.netlify.app/test1">
                 Watch Demo
               </Button>
 

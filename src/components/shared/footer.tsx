@@ -59,7 +59,7 @@ const Footer: React.FC = () => {
               Docs
             </Link>
             <Link
-              href="#"
+              href="https://timely-kheer-6c719b.netlify.app/test1"
               className="text-white/70 hover:text-white transition-colors text-sm font-medium"
             >
               Demo

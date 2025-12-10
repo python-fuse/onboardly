@@ -165,7 +165,7 @@ export default function HeroSection() {
             whileHover="hover"
             whileTap="tap"
           >
-            <Button variant="secondary" size="lg">
+            <Button variant="secondary" size="lg" href="https://timely-kheer-6c719b.netlify.app/test1">
               See Demo
             </Button>
           </motion.div>
