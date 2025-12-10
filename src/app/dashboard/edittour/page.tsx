@@ -11,29 +11,26 @@ export default function EditTour() {
   const searchParams = useSearchParams();
   const tourIdParam = searchParams.get("id");
   const tourId = tourIdParam as Id<"tours"> | null;
-  
+
   const [tourName, setTourName] = useState("");
   const [hasChanges, setHasChanges] = useState(false);
-  
+
   // Fetch tour data
-  const tour = useQuery(
-    api.tours.getTour,
-    tourId ? { tourId } : "skip"
-  );
-  
+  const tour = useQuery(api.tours.getTour, tourId ? { tourId } : "skip");
+
   const updateTourMutation = useMutation(api.tours.updateTour);
   const publishTourMutation = useMutation(api.tours.publishTour);
-  
+
   // Initialize tour name when data loads
   useEffect(() => {
     if (tour) {
       setTourName(tour.name);
     }
   }, [tour]);
-  
+
   const handleSave = async () => {
     if (!tourId || !tour) return;
-    
+
     try {
       await updateTourMutation({
         tourId,
@@ -46,15 +43,15 @@ export default function EditTour() {
       alert("Failed to save tour. Please try again.");
     }
   };
-  
+
   const handlePublish = async () => {
     if (!tourId) return;
-    
+
     if (tour && tour.steps.length === 0) {
       alert("Please add at least one step before publishing.");
       return;
     }
-    
+
     try {
       const scriptId = await publishTourMutation({ tourId });
       alert("Tour published successfully!");
@@ -64,12 +61,12 @@ export default function EditTour() {
       alert("Failed to publish tour. Please try again.");
     }
   };
-  
+
   const deleteStep = async (stepId: string) => {
     if (!tourId || !tour) return;
-    
+
     if (!confirm("Are you sure you want to delete this step?")) return;
-    
+
     try {
       const updatedSteps = tour.steps.filter((s) => s.id !== stepId);
       await updateTourMutation({
@@ -81,7 +78,7 @@ export default function EditTour() {
       alert("Failed to delete step. Please try again.");
     }
   };
-  
+
   if (!tourId) {
     return (
       <div className="min-h-screen flex items-center justify-center text-white">
@@ -97,7 +94,7 @@ export default function EditTour() {
       </div>
     );
   }
-  
+
   if (tour === undefined) {
     return (
       <div className="min-h-screen flex items-center justify-center text-white">
@@ -105,7 +102,7 @@ export default function EditTour() {
       </div>
     );
   }
-  
+
   if (tour === null) {
     return (
       <div className="min-h-screen flex items-center justify-center text-white">
@@ -147,7 +144,7 @@ export default function EditTour() {
         </div>
 
         <div className="flex items-center gap-2">
-          <button 
+          <button
             onClick={() => router.push("/dashboard/managetour")}
             className="h-10 min-w-[84px] px-4 rounded-lg bg-white/10 text-white text-sm font-bold hover:bg-white/20"
           >
@@ -160,7 +157,7 @@ export default function EditTour() {
           >
             Save
           </button>
-          <button 
+          <button
             onClick={handlePublish}
             className="h-10 min-w-[84px] px-4 rounded-lg bg-primary text-white text-sm font-bold hover:bg-primary/90"
           >
@@ -217,7 +214,9 @@ export default function EditTour() {
                   </h2>
 
                   <button
-                    onClick={() => router.push(`/dashboard/steps?tourId=${tourId}`)}
+                    onClick={() =>
+                      router.push(`/dashboard/steps?tourId=${tourId}`)
+                    }
                     className="flex h-10 items-center gap-2 rounded-lg bg-primary px-4 text-white font-bold hover:bg-primary/90"
                   >
                     <span className="text-lg">+</span>
@@ -227,9 +226,13 @@ export default function EditTour() {
 
                 {tour.steps.length === 0 ? (
                   <div className="flex flex-col items-center justify-center py-12 border border-dashed border-white/20 rounded-xl">
-                    <p className="text-white/60 mb-4">No steps yet. Add your first step to get started.</p>
+                    <p className="text-white/60 mb-4">
+                      No steps yet. Add your first step to get started.
+                    </p>
                     <button
-                      onClick={() => router.push(`/dashboard/steps?tourId=${tourId}`)}
+                      onClick={() =>
+                        router.push(`/dashboard/steps?tourId=${tourId}`)
+                      }
                       className="bg-primary px-6 py-2 rounded-lg text-white font-semibold hover:bg-primary/90"
                     >
                       Add First Step
@@ -248,12 +251,18 @@ export default function EditTour() {
 
                         <div className="flex-1">
                           <p className="text-white font-medium">{step.title}</p>
-                          <p className="text-white/60 text-sm">{step.targetSelector}</p>
+                          <p className="text-white/60 text-sm">
+                            {step.targetSelector}
+                          </p>
                         </div>
 
                         <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                           <button
-                            onClick={() => router.push(`/dashboard/steps?tourId=${tourId}&editStep=${step.id}`)}
+                            onClick={() =>
+                              router.push(
+                                `/dashboard/steps?tourId=${tourId}&editStep=${step.id}`
+                              )
+                            }
                             className="text-purple-400 hover:text-purple-300 text-sm font-medium"
                           >
                             Edit

@@ -46,23 +46,37 @@ export const getAnalytics = query({
 
     // Calculate stats
     const totalEvents = events.length;
-    const tourStarts = events.filter((e) => e.eventType === "tour_started").length;
-    const tourCompletions = events.filter((e) => e.eventType === "tour_completed").length;
-    const tourSkips = events.filter((e) => e.eventType === "tour_skipped").length;
-    const completionRate = tourStarts > 0 ? ((tourCompletions / tourStarts) * 100).toFixed(1) : "0.0";
+    const tourStarts = events.filter(
+      (e) => e.eventType === "tour_started"
+    ).length;
+    const tourCompletions = events.filter(
+      (e) => e.eventType === "tour_completed"
+    ).length;
+    const tourSkips = events.filter(
+      (e) => e.eventType === "tour_skipped"
+    ).length;
+    const completionRate =
+      tourStarts > 0
+        ? ((tourCompletions / tourStarts) * 100).toFixed(1)
+        : "0.0";
 
     // Get events by tour
     const eventsByTour: { [key: string]: any } = {};
     userTours.forEach((tour) => {
       const tourEvents = events.filter((e) => e.tourId === tour.tourId);
-      const starts = tourEvents.filter((e) => e.eventType === "tour_started").length;
-      const completions = tourEvents.filter((e) => e.eventType === "tour_completed").length;
-      
+      const starts = tourEvents.filter(
+        (e) => e.eventType === "tour_started"
+      ).length;
+      const completions = tourEvents.filter(
+        (e) => e.eventType === "tour_completed"
+      ).length;
+
       eventsByTour[tour.tourId] = {
         tourName: tour.name,
         starts,
         completions,
-        completionRate: starts > 0 ? ((completions / starts) * 100).toFixed(1) : "0.0",
+        completionRate:
+          starts > 0 ? ((completions / starts) * 100).toFixed(1) : "0.0",
       };
     });
 

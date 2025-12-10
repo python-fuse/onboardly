@@ -45,7 +45,9 @@ export default function Analytics() {
               <p className="text-gray-400 text-xs md:text-sm">Tour Starts</p>
               <Activity size={20} className="text-purple-400" />
             </div>
-            <h2 className="text-2xl md:text-3xl font-bold mb-1">{overview.tourStarts}</h2>
+            <h2 className="text-2xl md:text-3xl font-bold mb-1">
+              {overview.tourStarts}
+            </h2>
             <p className="text-xs text-gray-500">Total tours initiated</p>
           </div>
 
@@ -54,16 +56,22 @@ export default function Analytics() {
               <p className="text-gray-400 text-xs md:text-sm">Completions</p>
               <TrendingUp size={20} className="text-green-400" />
             </div>
-            <h2 className="text-2xl md:text-3xl font-bold mb-1">{overview.tourCompletions}</h2>
+            <h2 className="text-2xl md:text-3xl font-bold mb-1">
+              {overview.tourCompletions}
+            </h2>
             <p className="text-xs text-gray-500">Tours completed</p>
           </div>
 
           <div className="bg-white/5 p-4 md:p-6 rounded-2xl border border-white/10">
             <div className="flex items-center justify-between mb-3">
-              <p className="text-gray-400 text-xs md:text-sm">Completion Rate</p>
+              <p className="text-gray-400 text-xs md:text-sm">
+                Completion Rate
+              </p>
               <BarChart3 size={20} className="text-blue-400" />
             </div>
-            <h2 className="text-2xl md:text-3xl font-bold mb-1">{overview.completionRate}%</h2>
+            <h2 className="text-2xl md:text-3xl font-bold mb-1">
+              {overview.completionRate}%
+            </h2>
             <p className="text-xs text-gray-500">Average success rate</p>
           </div>
 
@@ -72,14 +80,18 @@ export default function Analytics() {
               <p className="text-gray-400 text-xs md:text-sm">Tours Skipped</p>
               <Clock size={20} className="text-orange-400" />
             </div>
-            <h2 className="text-2xl md:text-3xl font-bold mb-1">{overview.tourSkips}</h2>
+            <h2 className="text-2xl md:text-3xl font-bold mb-1">
+              {overview.tourSkips}
+            </h2>
             <p className="text-xs text-gray-500">Early exits</p>
           </div>
         </div>
 
         {/* Tours Performance Table */}
         <div className="bg-white/5 border border-white/10 rounded-2xl p-4 md:p-6 mb-8">
-          <h2 className="text-lg md:text-xl font-semibold mb-4 md:mb-6">Tour Performance</h2>
+          <h2 className="text-lg md:text-xl font-semibold mb-4 md:mb-6">
+            Tour Performance
+          </h2>
           {Object.keys(byTour).length > 0 ? (
             <div className="overflow-x-auto">
               <table className="w-full text-left text-gray-300 text-xs md:text-sm">
@@ -92,36 +104,50 @@ export default function Analytics() {
                   </tr>
                 </thead>
                 <tbody>
-                  {Object.entries(byTour).map(([tourId, stats]: [string, any]) => (
-                    <tr key={tourId} className="border-b border-white/5">
-                      <td className="py-3 px-2">{stats.tourName}</td>
-                      <td className="py-3 px-2 text-gray-400">{stats.starts}</td>
-                      <td className="py-3 px-2 text-gray-400">{stats.completions}</td>
-                      <td className="py-3 px-2">
-                        <span className={`${
-                          parseFloat(stats.completionRate) >= 80 ? "text-green-400" :
-                          parseFloat(stats.completionRate) >= 50 ? "text-yellow-400" :
-                          "text-red-400"
-                        }`}>
-                          {stats.completionRate}%
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
+                  {Object.entries(byTour).map(
+                    ([tourId, stats]: [string, any]) => (
+                      <tr key={tourId} className="border-b border-white/5">
+                        <td className="py-3 px-2">{stats.tourName}</td>
+                        <td className="py-3 px-2 text-gray-400">
+                          {stats.starts}
+                        </td>
+                        <td className="py-3 px-2 text-gray-400">
+                          {stats.completions}
+                        </td>
+                        <td className="py-3 px-2">
+                          <span
+                            className={`${
+                              parseFloat(stats.completionRate) >= 80
+                                ? "text-green-400"
+                                : parseFloat(stats.completionRate) >= 50
+                                ? "text-yellow-400"
+                                : "text-red-400"
+                            }`}
+                          >
+                            {stats.completionRate}%
+                          </span>
+                        </td>
+                      </tr>
+                    )
+                  )}
                 </tbody>
               </table>
             </div>
           ) : (
             <div className="text-center py-8 text-gray-400">
               <Users size={48} className="mx-auto mb-3 opacity-50" />
-              <p>No tour data yet. Publish a tour to start tracking analytics.</p>
+              <p>
+                No tour data yet. Publish a tour to start tracking analytics.
+              </p>
             </div>
           )}
         </div>
 
         {/* Recent Events */}
         <div className="bg-white/5 border border-white/10 rounded-2xl p-4 md:p-6">
-          <h2 className="text-lg md:text-xl font-semibold mb-4 md:mb-6">Recent Activity</h2>
+          <h2 className="text-lg md:text-xl font-semibold mb-4 md:mb-6">
+            Recent Activity
+          </h2>
           {recentEvents.length > 0 ? (
             <div className="space-y-3">
               {recentEvents.map((event: any, index: number) => (
@@ -130,12 +156,17 @@ export default function Analytics() {
                   className="flex items-center justify-between py-2 px-3 bg-white/5 rounded-lg"
                 >
                   <div className="flex items-center gap-3">
-                    <div className={`w-2 h-2 rounded-full ${
-                      event.eventType === "tour_completed" ? "bg-green-400" :
-                      event.eventType === "tour_started" ? "bg-blue-400" :
-                      event.eventType === "tour_skipped" ? "bg-orange-400" :
-                      "bg-gray-400"
-                    }`} />
+                    <div
+                      className={`w-2 h-2 rounded-full ${
+                        event.eventType === "tour_completed"
+                          ? "bg-green-400"
+                          : event.eventType === "tour_started"
+                          ? "bg-blue-400"
+                          : event.eventType === "tour_skipped"
+                          ? "bg-orange-400"
+                          : "bg-gray-400"
+                      }`}
+                    />
                     <div>
                       <p className="text-sm">{event.tourName}</p>
                       <p className="text-xs text-gray-400">

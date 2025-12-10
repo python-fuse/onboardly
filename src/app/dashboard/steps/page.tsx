@@ -21,14 +21,11 @@ export default function StepsManager() {
   const tourIdParam = searchParams.get("tourId");
   const editStepId = searchParams.get("editStep");
   const tourId = tourIdParam as Id<"tours"> | null;
-  
-  const tour = useQuery(
-    api.tours.getTour,
-    tourId ? { tourId } : "skip"
-  );
-  
+
+  const tour = useQuery(api.tours.getTour, tourId ? { tourId } : "skip");
+
   const updateTourMutation = useMutation(api.tours.updateTour);
-  
+
   // Form state for adding a new step
   const [newStep, setNewStep] = useState<StepFormData>({
     id: `step_${Date.now()}`,
@@ -38,22 +35,22 @@ export default function StepsManager() {
     placement: "bottom",
     action: "none",
   });
-  
+
   const handleAddStep = async () => {
     if (!tourId || !tour) return;
-    
+
     if (!newStep.title || !newStep.targetSelector || !newStep.content) {
       alert("Please fill in all required fields");
       return;
     }
-    
+
     try {
       const updatedSteps = [...tour.steps, newStep];
       await updateTourMutation({
         tourId,
         steps: updatedSteps,
       });
-      
+
       // Reset form
       setNewStep({
         id: `step_${Date.now()}`,
@@ -63,19 +60,19 @@ export default function StepsManager() {
         placement: "bottom",
         action: "none",
       });
-      
+
       alert("Step added successfully!");
     } catch (error) {
       console.error("Failed to add step:", error);
       alert("Failed to add step. Please try again.");
     }
   };
-  
+
   const handleDeleteStep = async (stepId: string) => {
     if (!tourId || !tour) return;
-    
+
     if (!confirm("Are you sure you want to delete this step?")) return;
-    
+
     try {
       const updatedSteps = tour.steps.filter((s) => s.id !== stepId);
       await updateTourMutation({
@@ -87,7 +84,7 @@ export default function StepsManager() {
       alert("Failed to delete step. Please try again.");
     }
   };
-  
+
   if (!tourId) {
     return (
       <div className="min-h-screen flex items-center justify-center text-white">
@@ -103,7 +100,7 @@ export default function StepsManager() {
       </div>
     );
   }
-  
+
   if (tour === undefined) {
     return (
       <div className="min-h-screen flex items-center justify-center text-white">
@@ -111,7 +108,7 @@ export default function StepsManager() {
       </div>
     );
   }
-  
+
   if (tour === null) {
     return (
       <div className="min-h-screen flex items-center justify-center text-white">
@@ -133,7 +130,9 @@ export default function StepsManager() {
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
           <div className="flex flex-col">
-            <h1 className="text-2xl md:text-3xl font-bold mb-2">Manage Steps</h1>
+            <h1 className="text-2xl md:text-3xl font-bold mb-2">
+              Manage Steps
+            </h1>
             <p className="text-gray-300">
               Editing steps for &apos;{tour.name}&apos;
             </p>
@@ -155,7 +154,10 @@ export default function StepsManager() {
             </h2>
             {tour.steps.length === 0 ? (
               <div className="bg-[#1C142D] rounded-xl p-8 text-center">
-                <p className="text-gray-400">No steps added yet. Add your first step using the form on the right.</p>
+                <p className="text-gray-400">
+                  No steps added yet. Add your first step using the form on the
+                  right.
+                </p>
               </div>
             ) : (
               <div className="space-y-4">
@@ -169,8 +171,12 @@ export default function StepsManager() {
                         Step {index + 1}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-semibold text-white mb-1">{step.title}</h3>
-                        <p className="text-gray-400 text-sm mb-2">{step.content}</p>
+                        <h3 className="font-semibold text-white mb-1">
+                          {step.title}
+                        </h3>
+                        <p className="text-gray-400 text-sm mb-2">
+                          {step.content}
+                        </p>
                         <div className="flex flex-wrap gap-2 text-xs">
                           <span className="bg-gray-800 px-2 py-1 rounded">
                             {step.targetSelector}
@@ -215,7 +221,9 @@ export default function StepsManager() {
                   className="w-full bg-gray-900 px-4 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-600"
                   placeholder="e.g., Welcome to Dashboard"
                   value={newStep.title}
-                  onChange={(e) => setNewStep({ ...newStep, title: e.target.value })}
+                  onChange={(e) =>
+                    setNewStep({ ...newStep, title: e.target.value })
+                  }
                 />
               </div>
 
@@ -244,7 +252,9 @@ export default function StepsManager() {
                   className="w-full bg-gray-900 px-4 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-600 min-h-[100px]"
                   placeholder="Explain what this step does..."
                   value={newStep.content}
-                  onChange={(e) => setNewStep({ ...newStep, content: e.target.value })}
+                  onChange={(e) =>
+                    setNewStep({ ...newStep, content: e.target.value })
+                  }
                 />
               </div>
 

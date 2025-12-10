@@ -8,7 +8,7 @@ export default function EmbedScript() {
   const searchParams = useSearchParams();
   const scriptId = searchParams.get("scriptId");
   const [copied, setCopied] = useState(false);
-  
+
   if (!scriptId) {
     return (
       <div className="flex h-screen overflow-hidden text-white">
@@ -26,7 +26,7 @@ export default function EmbedScript() {
   }
 
   const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL;
-  
+
   const scriptCode = `<!-- Guidely Tour Widget -->
 <script>
   (function() {
@@ -85,7 +85,9 @@ export default function EmbedScript() {
         <div className="bg-purple-900/20 border border-purple-500/30 rounded-lg p-4 mb-6 max-w-2xl">
           <p className="text-sm text-purple-200">
             <span className="font-semibold">Script ID:</span>{" "}
-            <code className="bg-purple-900/40 px-2 py-1 rounded">{scriptId}</code>
+            <code className="bg-purple-900/40 px-2 py-1 rounded">
+              {scriptId}
+            </code>
           </p>
           <p className="text-xs text-purple-300 mt-2">
             This unique ID is used to fetch your tour configuration from Convex.
@@ -133,20 +135,20 @@ export default function EmbedScript() {
             <li className="flex items-start gap-2">
               <span className="text-purple-400 mt-1">•</span>
               <span>
-                The script fetches your tour configuration from Convex using the Script ID
+                The script fetches your tour configuration from Convex using the
+                Script ID
               </span>
             </li>
             <li className="flex items-start gap-2">
               <span className="text-purple-400 mt-1">•</span>
               <span>
-                The tour widget loads automatically based on your settings (autoStart, etc.)
+                The tour widget loads automatically based on your settings
+                (autoStart, etc.)
               </span>
             </li>
             <li className="flex items-start gap-2">
               <span className="text-purple-400 mt-1">•</span>
-              <span>
-                Users will see the interactive tour guide you created
-              </span>
+              <span>Users will see the interactive tour guide you created</span>
             </li>
           </ul>
         </div>

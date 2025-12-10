@@ -1,6 +1,6 @@
 import PageWrapper from "@/src/components/shared/PageWrapper";
 import HeroSection from "@/src/components/about-page/Hero";
-import CTA from "@/src/components/shared/CTA"
+import CTA from "@/src/components/shared/CTA";
 import MissionStats from "@/src/components/about-page/MissionStats";
 import CorePrinciples from "@/src/components/about-page/CorePrinciple";
 

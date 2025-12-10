@@ -1,27 +1,39 @@
-"use client"
+"use client";
 
-import React from 'react';
-import Link from 'next/link';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import DocsLayout from '@/src/components/documentation/DocsLayout';
-import { CodeBlock } from '@/src/components/documentation/CodeBlock';
+import React from "react";
+import Link from "next/link";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import DocsLayout from "@/src/components/documentation/DocsLayout";
+import { CodeBlock } from "@/src/components/documentation/CodeBlock";
 
 export default function EmbedScriptPage() {
-  const embedScriptCode = `<!-- Load the built widget -->
-<script src="https://timely-kheer-6c719b.netlify.app/onboardly.js"></script>
+  const embedScriptCode = `<!-- Guidely Tour Widget -->
 <script>
-  window.addEventListener('load', () => {
-    if (!window.TourWidget) {
-      alert('Error: TourWidget not found. Did you run pnpm build?');
-      return;
-    }
-    window.TourWidget.initWithConfig({
-      tourId: 'build-test-tour',
-      steps: [
-        // ... your tour steps here
-      ]
-    });
-  });
+  (function() {
+    // Fetch tour configuration from Convex
+    fetch('YOUR_CONVEX_URL/api/query', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        path: 'public:getTourByScriptId',
+        args: { scriptId: 'YOUR_SCRIPT_ID' },
+        format: 'json'
+      })
+    })
+    .then(res => res.json())
+    .then(tourConfig => {
+      // Load the widget script
+      const script = document.createElement('script');
+      script.src = 'https://timely-kheer-6c719b.netlify.app/onboardly.js';
+      script.onload = function() {
+        if (window.TourWidget) {
+          window.TourWidget.initWithConfig(tourConfig);
+        }
+      };
+      document.head.appendChild(script);
+    })
+    .catch(err => console.error('Failed to load tour:', err));
+  })();
 </script>
 </body>`;
 
@@ -35,12 +47,46 @@ export default function EmbedScriptPage() {
       </div>
 
       <div>
-        <h3 className="text-white text-2xl font-bold pb-2 pt-5">Installation</h3>
+        <h3 className="text-white text-2xl font-bold pb-2 pt-5">
+          Installation
+        </h3>
         <p className="text-[#a490cb] text-base pb-4">
-          Load the widget script in your HTML file, typically just before the closing &lt;/body&gt; tag.
+          After publishing your tour in the Guidely dashboard, you&apos;ll
+          receive a unique Script ID. Use this script to load your tour
+          configuration from Convex and initialize the widget.
         </p>
-        
+
+        <div className="bg-purple-900/20 border border-purple-500/30 rounded-lg p-4 mb-4">
+          <h4 className="text-white font-semibold mb-2">How it works:</h4>
+          <ol className="text-[#a490cb] text-sm space-y-2 list-decimal ml-5">
+            <li>
+              The script fetches your tour configuration from Convex using your
+              unique Script ID
+            </li>
+            <li>The tour widget is loaded dynamically</li>
+            <li>The widget initializes with your tour configuration</li>
+            <li>
+              Users see your interactive tour automatically (based on your
+              autoStart setting)
+            </li>
+          </ol>
+        </div>
+
         <CodeBlock code={embedScriptCode} />
+
+        <div className="mt-4 bg-gray-900/40 border border-gray-700 rounded-lg p-4">
+          <p className="text-[#a490cb] text-sm">
+            <span className="text-yellow-400 font-semibold">Note:</span> Replace{" "}
+            <code className="bg-gray-800 px-2 py-1 rounded text-xs">
+              YOUR_CONVEX_URL
+            </code>{" "}
+            with your Convex deployment URL and{" "}
+            <code className="bg-gray-800 px-2 py-1 rounded text-xs">
+              YOUR_SCRIPT_ID
+            </code>{" "}
+            with the Script ID you receive after publishing.
+          </p>
+        </div>
       </div>
 
       {/* Navigation Buttons */}
