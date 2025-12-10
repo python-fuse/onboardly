@@ -1,12 +1,12 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 
-export default function EditTour() {
+function EditTourContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const tourIdParam = searchParams.get("id");
@@ -284,5 +284,22 @@ export default function EditTour() {
         </div>
       </main>
     </div>
+  );
+}
+
+export default function EditTour() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex h-screen items-center justify-center bg-[#0d0b14] text-white">
+          <div className="text-center">
+            <div className="mb-4 inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-purple-500 border-r-transparent"></div>
+            <p className="text-gray-400">Loading tour...</p>
+          </div>
+        </div>
+      }
+    >
+      <EditTourContent />
+    </Suspense>
   );
 }

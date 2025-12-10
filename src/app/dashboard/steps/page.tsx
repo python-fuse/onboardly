@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -15,7 +15,7 @@ type StepFormData = {
   action?: "click" | "hover" | "focus" | "none";
 };
 
-export default function StepsManager() {
+function StepsManagerContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const tourIdParam = searchParams.get("tourId");
@@ -311,5 +311,22 @@ export default function StepsManager() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function StepsManager() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex h-screen items-center justify-center bg-[#0d0b14] text-white">
+          <div className="text-center">
+            <div className="mb-4 inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-purple-500 border-r-transparent"></div>
+            <p className="text-gray-400">Loading steps...</p>
+          </div>
+        </div>
+      }
+    >
+      <StepsManagerContent />
+    </Suspense>
   );
 }

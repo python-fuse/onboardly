@@ -2,9 +2,9 @@
 
 import Sidebar from "@/src/components/dashboard/Sidebar";
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 
-export default function EmbedScript() {
+function EmbedScriptContent() {
   const searchParams = useSearchParams();
   const scriptId = searchParams.get("scriptId");
   const [copied, setCopied] = useState(false);
@@ -220,5 +220,22 @@ export default function YourComponent() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function EmbedScript() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex h-screen items-center justify-center bg-[#0d0b14] text-white">
+          <div className="text-center">
+            <div className="mb-4 inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-purple-500 border-r-transparent"></div>
+            <p className="text-gray-400">Loading embed script...</p>
+          </div>
+        </div>
+      }
+    >
+      <EmbedScriptContent />
+    </Suspense>
   );
 }
