@@ -174,6 +174,11 @@ export default function SignupPage() {
             /* Footer */
             .cl-footer {
               margin-top: 2rem !important;
+              background: linear-gradient(
+                to bottom right,
+                rgba(255, 255, 255, 0.1),
+                rgba(255, 255, 255, 0.05)
+              ) !important;
             }
 
             .cl-footerActionText {

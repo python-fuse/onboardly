@@ -113,7 +113,7 @@ export default function ManageTour() {
                 </p>
                 <button
                   onClick={() => setIsCreateOpen(true)}
-                  className="bg-purple-600 px-6 py-3 rounded-lg text-sm font-semibold hover:bg-purple-700 transition"
+                  className="bg-purple-600 text-white px-6 py-3 rounded-lg text-sm font-semibold hover:bg-purple-700 transition"
                 >
                   Create Your First Tour
                 </button>

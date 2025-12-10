@@ -41,16 +41,10 @@ const Footer: React.FC = () => {
           {/* Quick Links */}
           <div className="flex flex-wrap justify-center md:justify-end items-center gap-6">
             <Link
-              href="#features"
+              href="/"
               className="text-white/70 hover:text-white transition-colors text-sm font-medium"
             >
-              Features
-            </Link>
-            <Link
-              href="#demo"
-              className="text-white/70 hover:text-white transition-colors text-sm font-medium"
-            >
-              Demo
+              Home
             </Link>
             <Link
               href="/about"
@@ -59,10 +53,16 @@ const Footer: React.FC = () => {
               About
             </Link>
             <Link
-              href="/docs"
+              href="/documentation"
               className="text-white/70 hover:text-white transition-colors text-sm font-medium"
             >
               Docs
+            </Link>
+            <Link
+              href="#"
+              className="text-white/70 hover:text-white transition-colors text-sm font-medium"
+            >
+              Demo
             </Link>
           </div>
         </div>
