@@ -5,6 +5,7 @@ import React, { useState, useEffect, Suspense } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
+import LoadingSpinner from "@/src/components/shared/LoadingSpinner";
 
 function EditTourContent() {
   const router = useRouter();
@@ -14,6 +15,9 @@ function EditTourContent() {
 
   const [tourName, setTourName] = useState("");
   const [hasChanges, setHasChanges] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [isPublishing, setIsPublishing] = useState(false);
+  const [deletingStepId, setDeletingStepId] = useState<string | null>(null);
 
   // Fetch tour data
   const tour = useQuery(api.tours.getTour, tourId ? { tourId } : "skip");
@@ -29,8 +33,9 @@ function EditTourContent() {
   }, [tour]);
 
   const handleSave = async () => {
-    if (!tourId || !tour) return;
+    if (!tourId || !tour || isSaving) return;
 
+    setIsSaving(true);
     try {
       await updateTourMutation({
         tourId,
@@ -39,21 +44,25 @@ function EditTourContent() {
       setHasChanges(false);
     } catch (error) {
       console.error("Failed to save tour:", error);
+    } finally {
+      setIsSaving(false);
     }
   };
 
   const handlePublish = async () => {
-    if (!tourId) return;
+    if (!tourId || isPublishing) return;
 
     if (tour && tour.steps.length === 0) {
       return;
     }
 
+    setIsPublishing(true);
     try {
       const scriptId = await publishTourMutation({ tourId });
       router.push(`/dashboard/embed?scriptId=${scriptId}`);
     } catch (error) {
       console.error("Failed to publish tour:", error);
+      setIsPublishing(false);
     }
   };
 
@@ -62,6 +71,7 @@ function EditTourContent() {
 
     if (!confirm("Are you sure you want to delete this step?")) return;
 
+    setDeletingStepId(stepId);
     try {
       const updatedSteps = tour.steps.filter((s) => s.id !== stepId);
       await updateTourMutation({
@@ -70,6 +80,8 @@ function EditTourContent() {
       });
     } catch (error) {
       console.error("Failed to delete step:", error);
+    } finally {
+      setDeletingStepId(null);
     }
   };
 
@@ -146,16 +158,33 @@ function EditTourContent() {
           </button>
           <button
             onClick={handleSave}
-            disabled={!hasChanges}
-            className="h-10 min-w-[84px] px-4 rounded-lg bg-white/10 text-white text-sm font-bold hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={!hasChanges || isSaving}
+            className="h-10 min-w-[84px] px-4 rounded-lg bg-white/10 text-white text-sm font-bold hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 justify-center"
           >
-            Save
+            {isSaving ? (
+              <>
+                <LoadingSpinner size="sm" />
+                Saving...
+              </>
+            ) : (
+              "Save"
+            )}
           </button>
           <button
             onClick={handlePublish}
-            className="h-10 min-w-[84px] px-4 rounded-lg bg-primary text-white text-sm font-bold hover:bg-primary/90"
+            disabled={isPublishing}
+            className="h-10 min-w-[84px] px-4 rounded-lg bg-primary text-white text-sm font-bold hover:bg-primary/90 disabled:opacity-50 flex items-center gap-2 justify-center"
           >
-            {tour.published ? "Update" : "Publish"}
+            {isPublishing ? (
+              <>
+                <LoadingSpinner size="sm" />
+                Publishing...
+              </>
+            ) : tour.published ? (
+              "Update"
+            ) : (
+              "Publish"
+            )}
           </button>
         </div>
       </header>
@@ -263,9 +292,20 @@ function EditTourContent() {
                           </button>
                           <button
                             onClick={() => deleteStep(step.id)}
-                            className="text-red-400 hover:text-red-300 text-sm font-medium"
+                            disabled={deletingStepId === step.id}
+                            className="text-red-400 hover:text-red-300 text-sm font-medium disabled:opacity-50 flex items-center gap-1"
                           >
-                            Delete
+                            {deletingStepId === step.id ? (
+                              <>
+                                <LoadingSpinner
+                                  size="sm"
+                                  className="border-red-400 border-r-transparent"
+                                />
+                                Deleting...
+                              </>
+                            ) : (
+                              "Delete"
+                            )}
                           </button>
                         </div>
                       </div>

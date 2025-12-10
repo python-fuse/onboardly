@@ -6,11 +6,16 @@ import Sidebar from "@/src/components/dashboard/Sidebar";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
+import LoadingSpinner from "@/src/components/shared/LoadingSpinner";
 
 export default function ManageTour() {
   const router = useRouter();
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [tourName, setTourName] = useState("");
+  const [isCreating, setIsCreating] = useState(false);
+  const [deletingTourId, setDeletingTourId] = useState<Id<"tours"> | null>(
+    null
+  );
 
   // Fetch tours from Convex
   const tours = useQuery(api.tours.listUserTours);
@@ -22,8 +27,9 @@ export default function ManageTour() {
   };
 
   const createTour = async () => {
-    if (!tourName.trim()) return;
+    if (!tourName.trim() || isCreating) return;
 
+    setIsCreating(true);
     try {
       // Generate a unique tourId (used by the widget)
       const tourId = `tour_${Date.now()}_${Math.random()
@@ -42,16 +48,21 @@ export default function ManageTour() {
       setTourName("");
     } catch (error) {
       console.error("Failed to create tour:", error);
+    } finally {
+      setIsCreating(false);
     }
   };
 
   const deleteTour = async (tourId: Id<"tours">, tourName: string) => {
     if (!confirm(`Are you sure you want to delete "${tourName}"?`)) return;
 
+    setDeletingTourId(tourId);
     try {
       await deleteTourMutation({ tourId });
     } catch (error) {
       console.error("Failed to delete tour:", error);
+    } finally {
+      setDeletingTourId(null);
     }
   };
 
@@ -155,12 +166,20 @@ export default function ManageTour() {
                           >
                             Edit
                           </span>
-                          <span
+                          <button
                             onClick={() => deleteTour(tour._id, tour.name)}
-                            className="cursor-pointer text-gray-400 hover:text-red-400"
+                            disabled={deletingTourId === tour._id}
+                            className="cursor-pointer text-gray-400 hover:text-red-400 disabled:opacity-50 flex items-center gap-1"
                           >
-                            Delete
-                          </span>
+                            {deletingTourId === tour._id ? (
+                              <>
+                                <LoadingSpinner size="sm" className="border-gray-400 border-r-transparent" />
+                                Deleting...
+                              </>
+                            ) : (
+                              "Delete"
+                            )}
+                          </button>
                         </td>
                       </tr>
                     ))}
@@ -203,12 +222,20 @@ export default function ManageTour() {
                       >
                         Edit
                       </span>
-                      <span
+                      <button
                         onClick={() => deleteTour(tour._id, tour.name)}
-                        className="cursor-pointer text-gray-400 hover:text-red-400"
+                        disabled={deletingTourId === tour._id}
+                        className="cursor-pointer text-gray-400 hover:text-red-400 disabled:opacity-50 flex items-center gap-1"
                       >
-                        Delete
-                      </span>
+                        {deletingTourId === tour._id ? (
+                          <>
+                            <LoadingSpinner size="sm" className="border-gray-400 border-r-transparent" />
+                            Deleting...
+                          </>
+                        ) : (
+                          "Delete"
+                        )}
+                      </button>
                     </div>
                   </div>
                 ))}
@@ -244,10 +271,17 @@ export default function ManageTour() {
               </button>
               <button
                 onClick={createTour}
-                disabled={!tourName.trim()}
-                className="px-4 py-2 rounded-lg text-sm font-semibold bg-purple-600 disabled:opacity-50"
+                disabled={!tourName.trim() || isCreating}
+                className="px-4 py-2 rounded-lg text-sm font-semibold bg-purple-600 disabled:opacity-50 flex items-center gap-2"
               >
-                Continue
+                {isCreating ? (
+                  <>
+                    <LoadingSpinner size="sm" />
+                    Creating...
+                  </>
+                ) : (
+                  "Continue"
+                )}
               </button>
             </div>
           </div>

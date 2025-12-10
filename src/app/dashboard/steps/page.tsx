@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
+import LoadingSpinner from "@/src/components/shared/LoadingSpinner";
 
 type StepFormData = {
   id: string;
@@ -26,6 +27,8 @@ function StepsManagerContent() {
 
   const updateTourMutation = useMutation(api.tours.updateTour);
 
+  const [isAdding, setIsAdding] = useState(false);
+
   // Form state for adding a new step
   const [newStep, setNewStep] = useState<StepFormData>({
     id: `step_${Date.now()}`,
@@ -37,13 +40,14 @@ function StepsManagerContent() {
   });
 
   const handleAddStep = async () => {
-    if (!tourId || !tour) return;
+    if (!tourId || !tour || isAdding) return;
 
     if (!newStep.title || !newStep.targetSelector || !newStep.content) {
       alert("Please fill in all required fields");
       return;
     }
 
+    setIsAdding(true);
     try {
       const updatedSteps = [...tour.steps, newStep];
       await updateTourMutation({
@@ -62,6 +66,8 @@ function StepsManagerContent() {
       });
     } catch (error) {
       console.error("Failed to add step:", error);
+    } finally {
+      setIsAdding(false);
     }
   };
 
@@ -298,9 +304,17 @@ function StepsManagerContent() {
 
               <button
                 onClick={handleAddStep}
-                className="w-full bg-[#590df2] py-3 rounded-lg font-semibold hover:bg-[#4a0bd0] transition"
+                disabled={isAdding}
+                className="w-full bg-[#590df2] py-3 rounded-lg font-semibold hover:bg-[#4a0bd0] transition disabled:opacity-50 flex items-center justify-center gap-2"
               >
-                Add Step
+                {isAdding ? (
+                  <>
+                    <LoadingSpinner size="sm" />
+                    Adding Step...
+                  </>
+                ) : (
+                  "Add Step"
+                )}
               </button>
             </div>
           </div>

@@ -13,18 +13,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
-      <body>
-        <div className="relative flex min-h-screen w-full flex-col group/design-root overflow-x-hidden">
-          <div className=" flex h-full grow flex-col">
-            <div className="">
-              <div className="">
-                {children}
-              </div>
-            </div>
+    <body>
+      <div className="relative flex min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+        <div className=" flex h-full grow flex-col">
+          <div className="">
+            <div className="">{children}</div>
           </div>
         </div>
-      </body>
-    </html>
+      </div>
+    </body>
   );
 }
