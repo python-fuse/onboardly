@@ -6,11 +6,15 @@ const isPublicRoute = createRouteMatcher([
   "/signup(.*)",
   "/about(.*)",
   "/documentation(.*)",
+  "/api/public(.*)", // Allow public API endpoints
 ]);
 
 export default clerkMiddleware(async (auth, request) => {
   if (!isPublicRoute(request)) {
-    await auth.protect();
+    await auth.protect({
+      // Redirect to login if not authenticated
+      unauthenticatedUrl: "/login",
+    });
   }
 });
 
