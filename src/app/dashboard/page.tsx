@@ -55,10 +55,7 @@ export default function MainDashboard() {
   return (
     <div className="flex min-h-screen text-white">
       {/* Sidebar */}
-      <Sidebar
-        showCreateButton={true}
-        onCreateClick={() => router.push("/dashboard/managetour")}
-      />
+      <Sidebar onCreateClick={() => router.push("/dashboard/managetour")} />
 
       {/* Main Content */}
       <main className="flex-1 p-10">

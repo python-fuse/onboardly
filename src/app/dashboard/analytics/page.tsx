@@ -11,7 +11,7 @@ export default function Analytics() {
   if (!analytics) {
     return (
       <div className="flex text-white min-h-screen">
-        <Sidebar showCreateButton={false} />
+        <Sidebar />
         <div className="flex-1 flex items-center justify-center">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
         </div>
@@ -24,7 +24,7 @@ export default function Analytics() {
   return (
     <div className="flex text-white min-h-screen">
       {/* Sidebar */}
-      <Sidebar showCreateButton={false} />
+      <Sidebar />
 
       {/* Main Content */}
       <div className="flex-1 p-4 md:p-10 mt-16 md:mt-0">

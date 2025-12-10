@@ -83,10 +83,7 @@ export default function ManageTour() {
     <>
       <div className="flex min-h-screen text-white">
         {/* Sidebar */}
-        <Sidebar
-          showCreateButton={true}
-          onCreateClick={() => setIsCreateOpen(true)}
-        />
+        <Sidebar onCreateClick={() => setIsCreateOpen(true)} />
 
         {/* Main Content */}
         <main className="flex-1 px-4 md:px-8 py-6 w-full md:w-auto">
@@ -173,7 +170,10 @@ export default function ManageTour() {
                           >
                             {deletingTourId === tour._id ? (
                               <>
-                                <LoadingSpinner size="sm" className="border-gray-400 border-r-transparent" />
+                                <LoadingSpinner
+                                  size="sm"
+                                  className="border-gray-400 border-r-transparent"
+                                />
                                 Deleting...
                               </>
                             ) : (
@@ -229,7 +229,10 @@ export default function ManageTour() {
                       >
                         {deletingTourId === tour._id ? (
                           <>
-                            <LoadingSpinner size="sm" className="border-gray-400 border-r-transparent" />
+                            <LoadingSpinner
+                              size="sm"
+                              className="border-gray-400 border-r-transparent"
+                            />
                             Deleting...
                           </>
                         ) : (
