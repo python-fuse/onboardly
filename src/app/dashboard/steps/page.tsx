@@ -106,7 +106,7 @@ function StepsManagerContent() {
   if (tour === undefined) {
     return (
       <div className="min-h-screen flex items-center justify-center text-white">
-        <div className="text-xl">Loading...</div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
       </div>
     );
   }
@@ -331,7 +331,7 @@ export default function StepsManager() {
         <div className="flex h-screen items-center justify-center bg-[#0d0b14] text-white">
           <div className="text-center">
             <div className="mb-4 inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-purple-500 border-r-transparent"></div>
-            <p className="text-gray-400">Loading steps...</p>
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
           </div>
         </div>
       }
