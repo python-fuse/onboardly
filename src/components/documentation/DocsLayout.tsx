@@ -17,8 +17,8 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
   return (
     <div className="min-h-screen bg-[#161023] text-white font-sans">
       <div className="flex">
-        {/* Sidebar - Hidden on mobile (< 768px) */}
-        <aside className="hidden md:block md:sticky md:top-0 h-[1200px] w-64 border-r border-white/10 p-6">
+        {/* Sidebar - Sticky and hidden on mobile */}
+        <aside className="hidden md:block sticky top-[61px] h-[calc(100vh-61px)] w-64 border-r border-white/10 p-6 overflow-y-auto">
           <div className="flex h-full flex-col">
             <h1 className="text-white text-base font-medium mb-4 px-3">Guidely Docs</h1>
             <div className="flex flex-col gap-1">
@@ -43,7 +43,7 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
           </div>
         </aside>
 
-        {/* Main Content - No left margin on mobile */}
+        {/* Main Content */}
         <main className="flex-1 p-6 md:p-10 lg:p-16">
           <div className="max-w-4xl mx-auto">
             {children}

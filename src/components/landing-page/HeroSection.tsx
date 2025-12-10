@@ -148,7 +148,7 @@ export default function HeroSection() {
             whileHover="hover"
             whileTap="tap"
           >
-            <Button variant="primary" size="lg">
+            <Button variant="primary" size="lg" href="/signup">
               Start for Free
             </Button>
           </motion.div>
