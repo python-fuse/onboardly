@@ -259,3 +259,14 @@ This project is licensed under the MIT License.
 ## :speech_balloon: Support
 - **Issues**: [GitHub Issues](https://github.com/python-fuse/onboardly/issues)
 - **Documentation**: `/documentation` route in the app
+## :dart: Roadmap
+- [x] MVP - Complete tour creation and deployment
+- [x] Analytics dashboard
+- [x] Google OAuth
+- [ ] Custom branding options
+- [ ] A/B testing for tours
+- [ ] Team collaboration features
+- [ ] Advanced targeting rules
+- [ ] Multi-language support
+---
+Built with :heart: by Team Ottoman using Next.js, Convex, and Clerk
