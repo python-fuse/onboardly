@@ -42,7 +42,6 @@ export default function ManageTour() {
       setTourName("");
     } catch (error) {
       console.error("Failed to create tour:", error);
-      alert("Failed to create tour. Please try again.");
     }
   };
 
@@ -53,7 +52,6 @@ export default function ManageTour() {
       await deleteTourMutation({ tourId });
     } catch (error) {
       console.error("Failed to delete tour:", error);
-      alert("Failed to delete tour. Please try again.");
     }
   };
 

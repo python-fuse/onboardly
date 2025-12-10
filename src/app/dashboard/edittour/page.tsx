@@ -37,10 +37,8 @@ function EditTourContent() {
         name: tourName,
       });
       setHasChanges(false);
-      alert("Tour saved successfully!");
     } catch (error) {
       console.error("Failed to save tour:", error);
-      alert("Failed to save tour. Please try again.");
     }
   };
 
@@ -48,17 +46,14 @@ function EditTourContent() {
     if (!tourId) return;
 
     if (tour && tour.steps.length === 0) {
-      alert("Please add at least one step before publishing.");
       return;
     }
 
     try {
       const scriptId = await publishTourMutation({ tourId });
-      alert("Tour published successfully!");
       router.push(`/dashboard/embed?scriptId=${scriptId}`);
     } catch (error) {
       console.error("Failed to publish tour:", error);
-      alert("Failed to publish tour. Please try again.");
     }
   };
 
@@ -75,7 +70,6 @@ function EditTourContent() {
       });
     } catch (error) {
       console.error("Failed to delete step:", error);
-      alert("Failed to delete step. Please try again.");
     }
   };
 
@@ -180,7 +174,7 @@ function EditTourContent() {
                   Tours
                 </a>
                 <span className="text-white/40">/</span>
-
+                alert(
                 <span className="text-base text-white">{tourName}</span>
               </div>
               <h1 className="text-4xl font-bold tracking-tight text-white">

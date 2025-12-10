@@ -60,11 +60,8 @@ function StepsManagerContent() {
         placement: "bottom",
         action: "none",
       });
-
-      alert("Step added successfully!");
     } catch (error) {
       console.error("Failed to add step:", error);
-      alert("Failed to add step. Please try again.");
     }
   };
 
@@ -81,7 +78,6 @@ function StepsManagerContent() {
       });
     } catch (error) {
       console.error("Failed to delete step:", error);
-      alert("Failed to delete step. Please try again.");
     }
   };
 

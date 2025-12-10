@@ -5,7 +5,6 @@ import { motion, Variants, Transition } from "framer-motion";
 
 export default function DemoSection() {
   const handleLaunchDemo = () => {
-    alert("Demo tour would launch here! 🚀");
     // Later you'll integrate the actual embeddable widget here
   };
 
