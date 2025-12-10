@@ -1,84 +1,19 @@
 "use client";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
-import { Menu, X } from "lucide-react";
+import React from "react";
+import Sidebar from "@/src/components/dashboard/Sidebar";
 
 export default function MainDashboard() {
   const router = useRouter();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const tourPage = () => {
     router.push("/dashboard/managetour");
   };
 
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
-
-  const navItems = ["Dashboard", "Tours", "Steps", "Analytics", "Settings", "Logout"];
-
   return (
     <div className="flex min-h-screen text-white">
-      {/* Mobile Menu Button */}
-      <button
-        onClick={toggleSidebar}
-        className="md:hidden fixed top-4 left-4 z-50 p-2 bg-gray-800 rounded-lg"
-      >
-        {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
-      </button>
-
-      {/* Overlay for mobile */}
-      {isSidebarOpen && (
-        <div
-          className="md:hidden fixed inset-0 bg-black/50 z-30"
-          onClick={toggleSidebar}
-        />
-      )}
-
       {/* Sidebar */}
-      <aside
-        className={`
-          fixed md:static
-          w-56 h-screen
-          shrink-0 border-r border-gray-800 px-4 py-6
-          flex flex-col justify-between
-          bg-[#161023]
-          transition-transform duration-300 ease-in-out
-          z-40
-          ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
-          md:translate-x-0
-        `}
-      >
-        <div>
-          <div className="mb-10">
-            <h2 className="font-bold text-lg">Guidely</h2>
-            <p className="text-sm text-gray-400">Onboarding Tours</p>
-          </div>
-
-          <nav className="space-y-2 text-sm">
-            {navItems.map((item, i) => (
-              <div
-                key={i}
-                onClick={() => setIsSidebarOpen(false)}
-                className={`px-4 py-2 rounded-lg cursor-pointer ${
-                  item === "Dashboard"
-                    ? "bg-purple-600"
-                    : "text-gray-400 hover:bg-gray-800"
-                }`}
-              >
-                {item}
-              </div>
-            ))}
-          </nav>
-        </div>
-
-        <button
-          className="bg-purple-600 rounded-lg py-3 text-sm font-semibold"
-          onClick={tourPage}
-        >
-          Create New Tour
-        </button>
-      </aside>
+      <Sidebar showCreateButton={true} onCreateClick={tourPage} />
 
       {/* Main Content */}
       <main className="flex-1 p-4 md:p-10 w-full md:w-auto">
@@ -124,7 +59,7 @@ export default function MainDashboard() {
           ))}
         </section>
 
-        {/* Recent Tours - Mobile: Cards, Desktop: Table */}
+        {/* Recent Tours - Desktop Table */}
         <section className="bg-gray-800 rounded-2xl p-4 md:p-6">
           <h3 className="text-base md:text-lg font-semibold mb-4">Recent Tours</h3>
           
