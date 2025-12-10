@@ -77,7 +77,7 @@ const FeaturesSection: React.FC = () => {
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.2 }}
-      className="flex flex-col gap-8"
+      className=" flex flex-col gap-8"
     >
       <h2 className="text-white text-3xl font-bold leading-tight tracking-[-0.015em] px-4 text-center">
         All The Features You Need
