@@ -233,3 +233,21 @@ CLERK_JWT_ISSUER_DOMAIN
 ## :hammer_and_wrench: Development
 ### Available Scripts
 ```bash
+pnpm dev          # Start dev server
+pnpm build        # Build for production
+pnpm start        # Start production server
+pnpm lint         # Run ESLint
+npx convex dev    # Start Convex dev environment
+```
+### Code Quality
+- **TypeScript** - Strict mode enabled
+- **ESLint** - Enforced code standards
+- **Prettier** - Code formatting (via formatter)
+## :handshake: Contributing
+We welcome contributions! Please follow these steps:
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+## :memo: License
