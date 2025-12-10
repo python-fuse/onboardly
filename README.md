@@ -251,3 +251,11 @@ We welcome contributions! Please follow these steps:
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 ## :memo: License
+This project is licensed under the MIT License.
+## :link: Links
+- **Widget Repository**: [onboardly_widget](https://github.com/python-fuse/onboardly_widget)
+- **Widget Demo**: [Widget Documentation](https://github.com/python-fuse/onboardly_widget#readme)
+- **Live Demo**: Coming soon!
+## :speech_balloon: Support
+- **Issues**: [GitHub Issues](https://github.com/python-fuse/onboardly/issues)
+- **Documentation**: `/documentation` route in the app
